@@ -12,23 +12,69 @@ inputs:
       flow(s).  Defaults to the GH Workspace/requirements.txt
     required: true
     default: ${{ GITHUB_WORKSPACE }}/requirements.txt
-  flow-path:
-    description:
-      Path to Prefect flow file that will be deployed.
-    required: true
-  flow-name:
+  entrypoint:
     description: 
-      Name of the definition that is encapsulated by your Prefect flow.
-    required: true
-  deployment-name:
-    description:
-      The name of the Prefect deployment. (if not defined in the deployment.yaml file) 
-      Leaving blank will cause Prefect to pull the deployment name from the deployment.yaml file.
+      The path to a flow entrypoint within a project, in the form of `./path/to/file.py:flow_func_name`
     required: false
-  work-pool-id:
+  flow:
     description: 
-      The ID of the Prefect Work Pool (if not defined in the deployment.yaml file) which schedules the deployment.
-      Leaving blank will cause Prefect to pull the Work Pool name from the deployment.yaml file.
+      The name of a registered flow to create a deployment for. (Use typically in place of Entrypoint)
+    required: false
+  name:
+    description:
+      The name to give the deployment. (Defaults to none)
+    required: false
+  description:
+    description: 
+      The description to give the deployment. If not provided, the description will be populated from the flow's description.
+    required: false
+  version:
+    description: 
+      A version to give the deployment.
+    required: false
+  tag:
+    description:
+      One or more optional tags to apply to the deployment. Note - tags are used only for organizational purposes. For delegating work to agents, use the --work-queue flag.
+    required: false
+  pool:
+    description: 
+      The work pool that will handle this deployment's runs.
+    required: false
+  work-queue:
+    description:
+      The work queue that will handle this deployment's runs. It will be created if it doesn't already exist. Defaults to `None`.
+    required: false
+  variable: 
+    description: 
+      One or more job variable overrides for the work pool provided in the format of key=value
+    required: false
+  cron:
+    description:
+      A cron string that will be used to set a CronSchedule on the deployment.
+    required: false
+  interval:
+    description:
+      An integer specifying an interval (in seconds) that will be used to set an IntervalSchedule on the deployment.
+    required: false
+  anchor-date:
+    description: 
+      The anchor date for an interval schedule
+    required: false
+  rrule:
+    description: 
+      An RRule that will be used to set an RRuleSchedule on the deployment.
+    required: false
+  timezone:
+    description:
+      Deployment schedule timezone string e.g. 'America/New_York'
+    required: false
+  param:
+    description: 
+      An optional parameter override, values are parsed as JSON strings e.g. --param question=ultimate --param answer=42
+    required: false
+  params:
+    description: 
+      'An optional parameter override in a JSON string format e.g. --params={"question": "ultimate", "answer": 42}'
     required: false
 
 runs:
@@ -38,5 +84,22 @@ runs:
       shell: bash
     - run: prefect cloud login --key ${{ inputs.api-key }} --workspace ${{ inputs.prefect-workspace }}
       shell: bash
-    - run: prefect deploy ${{ inputs.flow-path }}:${{ inputs.flow-name }} -n ${{ inputs.deployment-name }} -p ${{ inputs.work-pool-name }}
+    - run: |
+        prefect deploy \
+         -f ${{ inputs.flow }} \
+         -n ${{ inputs.name }} \
+         -d ${{ inputs.description }} \
+         --version ${{ inputs.version }} \
+         -t ${{ inputs.tag }} \
+         -p ${{ inputs.pool }} \
+         -q ${{ inputs.work-queue }} \
+         -v ${{ inputs.variable }} \
+         --cron ${{ inputs.cron }} \
+         --interval ${{ inputs.interval }} \
+         --anchor-date ${{ inputs.anchor-date }} \
+         --rrule ${{ inputs.rrule }} \
+         --timezone ${{ inputs.timezone }} \
+         --param ${{ inputs.param }} \
+         --params ${{ inputs.params }} \
+         ${{ inputs.entrypoint}}
       shell: bash
