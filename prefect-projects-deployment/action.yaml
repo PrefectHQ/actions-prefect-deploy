@@ -1,0 +1,42 @@
+name: prefect-project-deploy
+author: jimid27
+description: Build and Release a Prefect Deployment
+
+inputs:
+  api-key:
+    description: A Prefect Cloud API key.
+    required: true
+  requirements-file-path:
+    description:
+      Path to requirements files to correctly install dependencies for your Prefect
+      flow(s).  Defaults to the GH Workspace/requirements.txt
+    required: true
+    default: ${{ GITHUB_WORKSPACE }}/requirements.txt
+  flow-path:
+    description:
+      Path to Prefect flow file that will be deployed.
+    required: true
+  flow-name:
+    description: 
+      Name of the definition that is encapsulated by your Prefect flow.
+    required: true
+  deployment-name:
+    description:
+      The name of the Prefect deployment. (if not defined in the deployment.yaml file) 
+      Leaving blank will cause Prefect to pull the deployment name from the deployment.yaml file.
+    required: false
+  work-pool-id:
+    description: 
+      The ID of the Prefect Work Pool (if not defined in the deployment.yaml file) which schedules the deployment.
+      Leaving blank will cause Prefect to pull the Work Pool name from the deployment.yaml file.
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - run: pip install -r ${{ inputs.requirements-files }}
+      shell: bash
+    - run: prefect cloud login --key ${{ inputs.api-key }} --workspace ${{ inputs.prefect-workspace }}
+      shell: bash
+    - run: prefect deploy ${{ inputs.flow-path }}:${{ inputs.flow-name }} -n ${{ inputs.deployment-name }} -p ${{ inputs.work-pool-name }}
+      shell: bash
