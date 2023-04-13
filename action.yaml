@@ -1,13 +1,15 @@
+---
 name: prefect-project-deploy
 author: jimid27
 description: Build and Release a Prefect Deployment
 
 inputs:
   prefect-api-key:
-    description: 
-      A Prefect Cloud API key associated with the account where the deployment will run from.
+    description:
+      A Prefect Cloud API key associated with the 
+      account where the deployment will run from.
     required: true
-  
+
   prefect-workspace:
     description:
       A Prefect workspace where the deployment will run from.
@@ -17,34 +19,39 @@ inputs:
     description:
       The name to give the deployment.
     required: true
-    
+
   requirements-file-path:
     description:
-      Path to requirements files to correctly install dependencies for your Prefect
-      flow(s).  Defaults to the GH Workspace/requirements.txt.
+      Path to requirements files to correctly install
+      dependencies for your Prefect flow(s).
+      Defaults to the GH Workspace/requirements.txt.
     required: true
     default: ${{ GITHUB_WORKSPACE }}/requirements.txt
 
   work-pool:
-    description: 
+    description:
       The work pool that will handle this deployment's runs.
     required: true
-    
+
   work-queue:
-    description: 
-      The work queue that will handle this deployment's runs. It will be created if it doesn't already exist.
+    description:
+      The work queue that will handle this deployment's runs.
+      It will be created if it doesn't already exist.
     required: true
     default: default
         
   entrypoint:
-    description: 
-      The path to a flow entrypoint within a project, in the form of `./path/to/file.py:flow_func_name`
-      Required unless the `--flow` argument is specified in place of the entrypoint.
+    description:
+      The path to a flow entrypoint within a project,
+      in the form of `./path/to/file.py:flow_func_name`
+      Required unless the `--flow` argument is specified
+      in place of the entrypoint.
     required: false
 
   additional-args:
     description:
-      Any additinal arguments that need to be passed to the prefect deployment run in a space separated format.
+      Any additinal arguments that need to be passed to
+      the prefect deployment run in a space separated format.
       i.e - `--variable foo=bar -t 1.0.0 --cron * * * * *`
     required: false
 
@@ -56,7 +63,10 @@ runs:
       shell: bash
     - run: pip install -r ${{ inputs.requirements-files }}
       shell: bash
-    - run: prefect cloud login --key ${{ inputs.prefect-api-key }} --workspace ${{ inputs.prefect-workspace }}
+    - run: |
+        prefect cloud login \
+        --key ${{ inputs.prefect-api-key }} \
+        --workspace ${{ inputs.prefect-workspace }}
       shell: bash
     - run: |
         prefect deploy \

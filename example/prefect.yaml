@@ -18,6 +18,6 @@ push: null
 # pull section allows you to provide instructions for cloning this project in remote locations
 pull:
 - prefect.projects.steps.git_clone_project:
-    repository: https://github.com/jimid27/test-prefect-projects
+    repository: https://github.com/PrefectHQ/prefect-gha
     branch: main
     access_token: "{{ prefect.blocks.secret.test-ro-gh }}"

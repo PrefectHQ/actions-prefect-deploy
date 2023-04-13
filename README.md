@@ -16,7 +16,8 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 - entrypoint _(Not Required)_ The path to a flow entrypoint within a project, in the form of `./path/to/file.py:flow_func_name` (Required unless the `--flow` argument is specified in place of the entrypoint.)
 - additional-args _(Not Required)_ Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below
 
-## Example Usage (Docker based Prefect Deploy)
+## Examples
+### Basic Docker Auth w/ Deploy
 ```yaml
 name: Build and Deploy a Prefect Deployment
 on:
@@ -29,16 +30,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: checkout@v3
+
       - name: Setup python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: 
+
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Run Prefect Deploy
         uses: PrefectHQ/prefect-project-deploy@v1
         with:
@@ -51,6 +54,7 @@ jobs:
           entrypoint: ./example/flows/flow.py:call_api
           additional-args: --var foo=bar --cron "30 19 * * 0"
 ```
+
 
 ## Additional Arguments
 | Arg Name      | Description                                                                                                             |
