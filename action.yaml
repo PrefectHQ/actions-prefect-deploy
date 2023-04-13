@@ -1,6 +1,6 @@
 ---
 name: prefect-project-deploy
-author: jimid27
+author: PrefectHQ
 description: Build and Release a Prefect Deployment
 
 inputs:
