@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Run Prefect Deploy
-        uses: PrefectHQ/prefect-project-deploy
+        uses: PrefectHQ/prefect-project-deploy@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: 387d3401-z2e0-aa50-5a24-a67790f9c3f4/workspace/c87baf1f-y9ad-48ec-9e43-b3ed8d576164
