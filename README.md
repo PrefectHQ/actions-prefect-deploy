@@ -43,7 +43,7 @@ jobs:
         uses: PrefectHQ/prefect-project-deploy@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
-          prefect-workspace: 387d3401-z2e0-aa50-5a24-a67790f9c3f4/workspace/c87baf1f-y9ad-48ec-9e43-b3ed8d576164
+          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           name: test-docker-deployment
           requirements-file: ./flows/requirements.txt
           work-pool: docker-work-pool
