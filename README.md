@@ -7,14 +7,16 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 - [Checkout](https://github.com/actions/checkout), [Setup Python](https://github.com/actions/setup-python), & [Docker Login](https://github.com/marketplace/actions/docker-login)/Cloud Docker Registry Login (If building and pushing a Docker artifact)
 
 ## Inputs
-- prefect-api-key _(Required)_ A Prefect Cloud API Key
-- prefect-workspace _(Required)_ Full handle of workspace, in format '<account_handle>/<workspace_handle>' 
-- name _(Required)_ A name to give the deployment
-- requirements-file-path _(Required)_ Path to requirements files to correctly install dependencies for your Prefect flow(s).  Defaults to the GH Workspace/requirements.txt
-- work-pool _(Required)_ The work pool that will handle this deployment's runs
-- work-queue _(Required)_ The work queue that will handle this deployment's runs (Defaults to `default`)
-- entrypoint _(Not Required)_ The path to a flow entrypoint within a project, in the form of `./path/to/file.py:flow_func_name` (Required unless the `--flow` argument is specified in place of the entrypoint.)
-- additional-args _(Not Required)_ Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below
+| Input                  | Requirement  | Description                                                                                                                                                                        |
+|------------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| prefect-api-key        | Required     | A Prefect Cloud API Key                                                                                                                                                            |
+| prefect-workspace      | Required     | Full handle of workspace, in format 'account_handle>/<workspace_handle>'                                                                                                           |
+| name                   | Required     | A name to give the deployment                                                                                                                                                      |
+| requirements-file-path | Required     | ath to requirements files to correctly install dependencies for your Prefect flow(s).  Defaults to the GH Workspace/requirements.txt                                               |
+| work-pool              | Required     | The work pool that will handle this deployment's runs                                                                                                                              |
+| work-queue             | Required     | The work queue that will handle this deployment's runs (Defaults to `default`)                                                                                                     |
+| entrypoint             | Not Required | The path to a flow entrypoint within a project, in the form of `./path/to/file.py:flow_func_name` (Required unless the `--flow` argument is specified in place of the entrypoint.) |
+| additional-args        | Not Required | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below                                                                    |
 
 ## Examples
 ### Basic Docker Auth w/ Deploy
@@ -54,7 +56,7 @@ jobs:
           entrypoint: ./example/flows/flow.py:call_api
           additional-args: --var foo=bar --cron "30 19 * * 0"
 ```
-
+### GCP Workload Identity 
 
 ## Additional Arguments
 | Arg Name      | Description                                                                                                             |
