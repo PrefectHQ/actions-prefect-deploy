@@ -1,0 +1,13 @@
+description: null
+entrypoint: flows/flow.py:call_api
+flow_name: null
+name: null
+parameters: {}
+schedule: null
+tags: []
+version: null
+work_pool:
+  job_variables:
+    image: '{{ image_name }}'
+  name: docker-pool
+  work_queue_name: default
