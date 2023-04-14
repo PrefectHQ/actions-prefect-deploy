@@ -61,7 +61,7 @@ runs:
   steps:
     - run: pip install prefect
       shell: bash
-    - run: pip install -r ${{ inputs.requirements-files }}
+    - run: pip install -r ${{ inputs.requirements-file-path }}
       shell: bash
     - run: |
         prefect cloud login \
