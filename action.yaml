@@ -54,7 +54,7 @@ runs:
     - run: pip install -q prefect
       shell: bash
       id: install-prefect-locally
-    - run: pip install -r -q ${{ inputs.requirements-file-path }}
+    - run: pip install -r ${{ inputs.requirements-file-path }}
       id: install-local-requirements
       shell: bash
     - run: |
