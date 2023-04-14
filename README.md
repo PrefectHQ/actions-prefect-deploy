@@ -10,11 +10,11 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 | Input                  | Requirement  | Description                                                                                                                                                                        |
 |------------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | prefect-api-key        | Required     | A Prefect Cloud API Key                                                                                                                                                            |
-| prefect-workspace      | Required     | Full handle of workspace, in format 'account_handle>/<workspace_handle>'                                                                                                           |
+| prefect-workspace      | Required     | Full handle of workspace, in format `account_handle>/<workspace_handle>`                                                                                                          |
 | name                   | Required     | A name to give the deployment                                                                                                                                                      |
 | requirements-file-path | Required     | ath to requirements files to correctly install dependencies for your Prefect flow(s).  Defaults to the GH Workspace/requirements.txt                                               |
 | work-pool              | Required     | The work pool that will handle this deployment's runs                                                                                                                              |
-| work-queue             | Required     | The work queue that will handle this deployment's runs (Defaults to `default`)                                                                                                     |
+| work-queue             | Not Required     | The work queue that will handle this deployment's runs (Defaults to `default`)                                                                                                     |
 | entrypoint             | Not Required | The path to a flow entrypoint within a project, in the form of `./path/to/file.py:flow_func_name` (Required unless the `--flow` argument is specified in place of the entrypoint.) |
 | additional-args        | Not Required | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below                                                                    |
 
