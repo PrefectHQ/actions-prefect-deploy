@@ -52,9 +52,8 @@ jobs:
           name: test-docker-deployment
           requirements-file: ./flows/requirements.txt
           work-pool: docker-work-pool
-          work-queue: default
           entrypoint: ./example/flows/flow.py:call_api
-          additional-args: --var foo=bar --cron "30 19 * * 0"
+          additional-args: --work-queue default --var foo=bar --cron "30 19 * * 0"
 ```
 ### GCP Workload Identity 
 
