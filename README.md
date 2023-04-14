@@ -64,35 +64,36 @@ on:
       - main
 jobs:
   deploy-flow:
+    permissions:
+      # required to read from the repo
+      contents: read
+      # required to obtain Google Cloud service account credentials
+      id-token: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+      - uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: ${{ vars.GHA_WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: <gcp_service_account>@<project_id>.iam.gserviceaccount.com
+          workload_identity_provider: '${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
 
       - name: Configure Google Cloud credential helper
-        run: gcloud auth configure-docker --quiet us-docker.pkg.dev
+        run: gcloud auth configure-docker --quiet us-east1-docker.pkg.dev
 
-      - name: Setup python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Run Prefect Deploy
-        uses: PrefectHQ/prefect-project-deploy@v1
+      - uses: prefecthq/prefect-gha-project-deploy@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
-          name: test-docker-deployment
-          requirements-file: ./flows/requirements.txt
-          work-pool: docker-work-pool
-          entrypoint: ./example/flows/flow.py:call_api
-          additional-args: --work-queue default --var foo=bar --cron "30 19 * * 0"
+          name: test-gha-docker-deployment
+          requirements-file-path: ./flows/requirements.txt
+          work-pool: docker-pool
+          entrypoint: ./flows/flow.py:call_api
+          additional-args: --work-queue default
 ```
 ## Additional Arguments
 | Arg Name      | Description                                                                                                             |
