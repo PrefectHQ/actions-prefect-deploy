@@ -6,7 +6,7 @@ description: Build and Release a Prefect Deployment
 inputs:
   prefect-api-key:
     description:
-      A Prefect Cloud API key associated with the 
+      A Prefect Cloud API key associated with the
       account where the deployment will run from.
     required: true
 
@@ -39,7 +39,7 @@ inputs:
       It will be created if it doesn't already exist.
     required: true
     default: default
-        
+
   entrypoint:
     description:
       The path to a flow entrypoint within a project,

@@ -6,18 +6,20 @@ prefect-version: 2.10.3
 
 # build section allows you to manage and build docker images
 build:
-- prefect_docker.projects.steps.build_docker_image:
-    requires: prefect-docker>0.1.0
-    image_name: EXAMPLE_IMAGE_REGISTRY
-    tag: null
-    dockerfile: auto
+    - prefect_docker.projects.steps.build_docker_image:
+        requires: prefect-docker>0.1.0
+        image_name: EXAMPLE_IMAGE_REGISTRY
+        tag: null
+        dockerfile: auto
 
-# push section allows you to manage if and how this project is uploaded to remote locations
+# push section allows you to manage if 
+# and how this project is uploaded to remote locations
 push: null
 
-# pull section allows you to provide instructions for cloning this project in remote locations
+# pull section allows you to provide instructions 
+# for cloning this project in remote locations
 pull:
-- prefect.projects.steps.git_clone_project:
-    repository: https://github.com/PrefectHQ/prefect-gha
-    branch: main
-    access_token: "{{ prefect.blocks.secret.test-ro-gh }}"
+    - prefect.projects.steps.git_clone_project:
+        repository: https://github.com/PrefectHQ/prefect-gha
+        branch: main
+        access_token: "{{ prefect.blocks.secret.test-ro-gh }}"
