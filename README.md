@@ -61,6 +61,7 @@ jobs:
 ## Additional Arguments
 | Arg Name      | Description                                                                                                             |
 |---------------|-------------------------------------------------------------------------------------------------------------------------|
+| --work-queue  | The work queue that will handle this deployment's runs. It will be created if it doesn't already exist. Defaults to `None`. |
 | --flow        | The name of a registered flow to create a deployment for. (Use in place of an entrypoint)                               |
 | --description | The description to give the deployment. If not provided, the description will be populated from the flow's description. |
 | --version     | A version to give the deployment.                                                                                       |

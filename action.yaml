@@ -69,10 +69,8 @@ runs:
         --workspace ${{ inputs.prefect-workspace }}
       shell: bash
     - run: |
-        prefect deploy \
+        prefect deploy ${{ inputs.entrypoint }} \
          -n ${{ inputs.name }} \
          -p ${{ inputs.work-pool }} \
-         -q ${{ inputs.work-queue }} \
-         ${{ inputs.additional-args }} \
-         ${{ inputs.entrypoint }}
+         ${{ inputs.additional-args }}
       shell: bash
