@@ -35,14 +35,12 @@ on:
     branches:
       - main
 jobs:
-  deploy-flow:
+  deploy_flow:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: checkout@v3
+      - uses: checkout@v3
 
-      - name: Setup python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
@@ -67,19 +65,16 @@ on:
     branches:
       - main
 jobs:
-  deploy-flow:
+  deploy_flow:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: checkout@v3
+      - uses: checkout@v3
 
-      - name: Setup python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
+      - uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -105,7 +100,7 @@ on:
     branches:
       - main
 jobs:
-  deploy-flow:
+  deploy_flow:
     permissions:
       # required to read from the repo
       contents: read
