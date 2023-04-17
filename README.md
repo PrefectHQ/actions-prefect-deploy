@@ -18,7 +18,7 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 | name | A name to give the deployment | true | |
 | prefect-api-key | A Prefect Cloud API Key | true | |
 | prefect-workspace | Full handle of workspace, in the format of: `<account_handle>/<workspace_handle>` | true | |
-| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow(s) |  true | ./requirements.txt
+| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow(s) | false | `./requirements.txt` |
 | work-pool | The work pool that will handle this deployment's runs | true | |
 | work-queue | The work queue that will handle this deployment's runs | false | `default` |
 
