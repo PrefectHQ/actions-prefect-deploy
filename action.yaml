@@ -6,14 +6,12 @@ description: Build and Release a Prefect Deployment
 inputs:
   prefect-api-key:
     description:
-      A Prefect Cloud API key associated with the
-      account where the deployment will run from.
+      API Key to authenticate with Prefect.
     required: true
 
   prefect-workspace:
     description:
-      A Prefect workspace where the deployment will run from, 
-      in the format of `<account_handle>/<workspace_handle>`.
+      Full handle of workspace, in format `<account_handle>/<workspace_handle>``.
     required: true
 
   name:
@@ -43,7 +41,7 @@ inputs:
   entrypoint:
     description:
       The path to a flow entrypoint within a project,
-      in the format of `./path/to/file.py:flow_func_name`.
+      in format `./path/to/file.py:flow_func_name`.
     required: true
 
   additional-args:
