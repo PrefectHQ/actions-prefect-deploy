@@ -13,6 +13,6 @@ push: null
 # pull section allows you to provide instructions for cloning this project in remote locations
 pull:
 - prefect.projects.steps.git_clone_project:
-    repository: git@github.com:PrefectHQ/actions-prefect-deploy-project.git
+    repository: git@github.com:PrefectHQ/actions-prefect-deploy.git
     branch: main
     access_token: "{{ prefect.blocks.secret.simple-github-pat }}"
