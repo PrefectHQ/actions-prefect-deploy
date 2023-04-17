@@ -1,5 +1,5 @@
 description: null
-entrypoint: flows/flow.py:call_api
+entrypoint: examples/docker/flow.py:call_api
 flow_name: null
 name: null
 parameters: {}
@@ -10,4 +10,4 @@ work_pool:
   job_variables:
     image: '{{ image_name }}'
   name: docker-pool
-  work_queue_name: default
+  work_queue_name: null
