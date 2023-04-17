@@ -1,12 +1,16 @@
-# prefect-project-deploy (WORK IN PROGRESS)
+# prefect-project-deploy 
+
 ## Details
+
 A Github Action to deploy one or more of your Prefect flow deployments via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects)
 
 ## Requirements
+
 - Access to a [Prefect Cloud Account](https://docs.prefect.io/latest/ui/cloud/#welcome-to-prefect-cloud)
 - [Checkout](https://github.com/actions/checkout), [Setup Python](https://github.com/actions/setup-python), & [Docker Login](https://github.com/marketplace/actions/docker-login)/Cloud Docker Registry Login (If building and pushing a Docker artifact)
 
 ## Inputs
+
 | Input | Desription | Required | Default |
 |-------|------------|----------|---------|
 | additional-args | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below | false | |
@@ -19,7 +23,9 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 | work-queue | The work queue that will handle this deployment's runs | false | `default` |
 
 ## Examples
+
 ### Simple Prefect Deploy
+
 Deploy a Prefect flow that doesn't have a `push` step defined in the `prefect.yaml`
 ```yaml
 name: Deploy a Prefect Deployment
@@ -51,6 +57,7 @@ jobs:
           additional-args: --cron "30 19 * * 0"
 ```
 ### Basic Docker Auth w/ Prefect Deploy
+
 Deploy a Prefect Deployment and also build a Docker image that pushes to a defined repository in the `prefect.yaml` file.
 ```yaml
 name: Build an Image and Deploy a Prefect Deployment
@@ -88,6 +95,7 @@ jobs:
           additional-args: --cron "30 19 * * 0"
 ```
 ### GCP Workload Identity w/ Prefect Deploy
+
 Deploy a Prefect Deployment and also build a Docker image that pushes to a defined repository in the `prefect.yaml` file.
 ```yaml
 name: Build an Image and Deploy a Prefect Deployment
@@ -128,6 +136,7 @@ jobs:
           additional-args: --cron "30 19 * * 0"
 ```
 ## Additional Arguments
+
 | Arg Name | Description | Example |
 |----------|-------------|---------|
 | --anchor-date | The anchor date for an interval schedule | |
