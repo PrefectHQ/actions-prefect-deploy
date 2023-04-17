@@ -2,7 +2,7 @@
 
 ## Details
 
-A Github Action to deploy a Prefect flow via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration defined in your `deployment.yaml` will be infered at run time; this means you do **not** need to duplicate cli arguments that are already defined. For example, if your `deployment.yaml` looks like: You will not need to pass your work-pool name, or the deployment name to this action.
+A Github Action to deploy a Prefect flow via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration defined in your `deployment.yaml` will be infered at run time; this means you do **not** need to duplicate cli arguments that are already defined. For example, if your `deployment.yaml` looks like: 
 ```yaml
 description: null
 entrypoint: examples/simple/flow.py:call_api
@@ -18,6 +18,7 @@ work_pool:
   name: simple-pool
   work_queue_name: null
 ```
+You will not need to pass your work-pool name, or the deployment name to this action.
 
 ## Requirements
 
