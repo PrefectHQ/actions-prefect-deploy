@@ -102,8 +102,6 @@ on:
 jobs:
   deploy_flow:
     permissions:
-      # required to read from the repo
-      contents: read
       # required to obtain Google Cloud service account credentials
       id-token: write
     runs-on: ubuntu-latest
