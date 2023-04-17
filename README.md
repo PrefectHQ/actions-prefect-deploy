@@ -35,14 +35,12 @@ on:
     branches:
       - main
 jobs:
-  deploy-flow:
+  deploy_flow:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: checkout@v3
+      - uses: checkout@v3
 
-      - name: Setup python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
@@ -67,19 +65,16 @@ on:
     branches:
       - main
 jobs:
-  deploy-flow:
+  deploy_flow:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: checkout@v3
+      - uses: checkout@v3
 
-      - name: Setup python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
+      - uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -105,23 +100,23 @@ on:
     branches:
       - main
 jobs:
-  deploy-flow:
+  deploy_flow:
+    permissions:
+      # required to obtain Google Cloud service account credentials
+      id-token: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+      - uses: google-github-actions/auth@v1
         with:
           workload_identity_provider: projects/<project_id>/locations/global/workloadIdentityPools/<pool-name>/providers/<provider-name>
           service_account: <gcp_service_account>@<project_id>.iam.gserviceaccount.com
 
       - name: Configure Google Cloud credential helper
-        run: gcloud auth configure-docker --quiet us-docker.pkg.dev
+        run: gcloud auth configure-docker --quiet us-east1-docker.pkg.dev
 
-      - name: Setup python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
