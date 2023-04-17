@@ -17,11 +17,6 @@ inputs:
       in format `./path/to/file.py:flow_func_name`.
     required: true
 
-  name:
-    description:
-      The name to give the deployment.
-    required: true
-
   prefect-api-key:
     description:
       API Key to authenticate with Prefect.
@@ -37,13 +32,9 @@ inputs:
     description:
       Path to requirements files to correctly install
       dependencies for your Prefect flow(s).
-    required: true
+    required: false
     default: ./requirements.txt
 
-  work-pool:
-    description:
-      The work pool that will handle this deployment's runs.
-    required: true
 
 runs:
   using: composite
@@ -66,7 +57,5 @@ runs:
     - id: prefect-deploy
       run: |
         prefect deploy ${{ inputs.entrypoint }} \
-         -n ${{ inputs.name }} \
-         -p ${{ inputs.work-pool }} \
          ${{ inputs.additional-args }}
       shell: bash
