@@ -64,7 +64,7 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           requirements-file-path: ./examples/simple/requirements.txt
           entrypoint: ./examples/simple/flow.py:call_api
-          additional-args: --cron "30 19 * * 0"
+          additional-args: --cron '30 19 * * 0'
 ```
 ### Basic Docker Auth w/ Prefect Deploy
 
@@ -97,7 +97,7 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           requirements-file-path: ./examples/docker/requirements.txt
           entrypoint: ./examples/docker/flow.py:call_api
-          additional-args: --cron "30 19 * * 0" --pool docker-pool
+          additional-args: --cron '30 19 * * 0' --pool docker-pool
 ```
 ### GCP Workload Identity w/ Prefect Deploy
 
@@ -136,7 +136,7 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           requirements-file-path: ./examples/docker/requirements.txt
           entrypoint: ./examples/docker/flow.py:call_api
-          additional-args: --cron "30 19 * * 0" --pool docker-pool
+          additional-args: --cron '30 19 * * 0' --pool docker-pool
 ```
 ## Additional Arguments
 
