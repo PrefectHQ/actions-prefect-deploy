@@ -45,7 +45,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/prefect-project-deploy@v1
+        uses: PrefectHQ/actions-prefect-deploy-project@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
@@ -85,7 +85,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - uses: prefecthq/prefect-gha-project-deploy@v1
+      - uses: prefecthq/actions-prefect-deploy-project@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
