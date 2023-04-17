@@ -1,7 +1,7 @@
 ---
-name: prefect-project-deploy
+name: Deploy a Prefect Project
 author: PrefectHQ
-description: Build and Release a Prefect Deployment
+description: Deploy a flow from a project by creating a Prefect deployment. 
 
 inputs:
   prefect-api-key:
@@ -24,19 +24,12 @@ inputs:
       Path to requirements files to correctly install
       dependencies for your Prefect flow(s).
     required: true
-    default: ${{ GITHUB_WORKSPACE }}/requirements.txt
+    default: ./requirements.txt
 
   work-pool:
     description:
       The work pool that will handle this deployment's runs.
     required: true
-
-  work-queue:
-    description:
-      The work queue that will handle this deployment's runs. 
-      It will be created if it doesn't already exist.
-    required: true
-    default: default
 
   entrypoint:
     description:
@@ -48,23 +41,30 @@ inputs:
     description:
       Any additinal arguments that need to be passed to
       the prefect deployment run in a space separated format.
-      i.e - `--variable foo=bar -t 1.0.0 --cron * * * * *`.
+      i.e - `--variable foo=bar -t 1.0.0 --cron "* * * * *"`.
     required: false
 
 
 runs:
   using: composite
   steps:
-    - run: pip install prefect
+    - id: install-prefect-locally
       shell: bash
-    - run: pip install -r ${{ inputs.requirements-files }}
+      run: pip install -q prefect
+
+    - id: install-local-requirements
+      run: pip install -r ${{ inputs.requirements-file-path }}
       shell: bash
-    - run: |
+
+    - id: prefect-cloud-login
+      run: |
         prefect cloud login \
         --key ${{ inputs.prefect-api-key }} \
         --workspace ${{ inputs.prefect-workspace }}
       shell: bash
-    - run: |
+
+    - id: prefect-deploy
+      run: |
         prefect deploy ${{ inputs.entrypoint }} \
          -n ${{ inputs.name }} \
          -p ${{ inputs.work-pool }} \

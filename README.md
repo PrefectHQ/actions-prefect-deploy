@@ -20,7 +20,6 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 | prefect-workspace | Full handle of workspace, in format `<account_handle>/<workspace_handle>`. | true | |
 | requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow(s). | false | `./requirements.txt` |
 | work-pool | The work pool that will handle this deployment's runs. | true | |
-| work-queue | The work queue that will handle this deployment's runs. It will be created if it doesn't already exist. | false | `default` |
 
 ## Examples
 
@@ -51,7 +50,7 @@ jobs:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           name: simple-deployment
-          requirements-file: ./examples/simple/requirements.txt
+          requirements-file-path: ./examples/simple/requirements.txt
           work-pool: simple-pool
           entrypoint: ./examples/simple/flow.py:call_api
           additional-args: --cron "30 19 * * 0"
@@ -89,7 +88,7 @@ jobs:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           name: basic-docker-auth-deployment
-          requirements-file: ./examples/docker/requirements.txt
+          requirements-file-path: ./examples/docker/requirements.txt
           work-pool: docker-pool
           entrypoint: ./examples/docker/flow.py:call_api
           additional-args: --cron "30 19 * * 0"
@@ -130,7 +129,7 @@ jobs:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           name: gcp-workload-identity-auth-deployment
-          requirements-file: ./examples/docker/requirements.txt
+          requirements-file-path: ./examples/docker/requirements.txt
           work-pool: docker-pool
           entrypoint: ./examples/docker/flow.py:call_api
           additional-args: --cron "30 19 * * 0"
@@ -150,3 +149,4 @@ jobs:
 | --timezone | Deployment schedule timezone string. | `--timezone 'America/New_York'` |
 | --variable | One or more job variable overrides for the work pool. | `--variable foo=bar` |
 | --version | A version to give the deployment. | |
+| --work-queue | The work queue that will handle this deployment's runs. It will be created if it doesn't already exist. | `--work-queue test` |
