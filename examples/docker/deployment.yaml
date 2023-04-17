@@ -9,5 +9,5 @@ version: null
 work_pool:
   job_variables:
     image: '{{ image_name }}'
-  name: docker-pool
+  name: null
   work_queue_name: null
