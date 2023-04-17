@@ -1,7 +1,7 @@
 ---
 name: Deploy a Prefect flow
 author: PrefectHQ
-description: Deploy a flow from a project by creating a Prefect deployment. 
+description: Deploy a flow from a project by creating a Prefect deployment.
 
 inputs:
   additional-args:
@@ -16,7 +16,7 @@ inputs:
       The path to a flow entrypoint within a project,
       in format `./path/to/file.py:flow_func_name`.
     required: true
-    
+
   name:
     description:
       The name to give the deployment.
@@ -29,7 +29,8 @@ inputs:
 
   prefect-workspace:
     description:
-      Full handle of workspace, in format `<account_handle>/<workspace_handle>``.
+      Full handle of workspace, in format
+      `<account_handle>/<workspace_handle>`.
     required: true
 
   requirements-file-path:
