@@ -1,9 +1,27 @@
 ---
-name: Deploy a Prefect Project
+name: Deploy a Prefect flow
 author: PrefectHQ
 description: Deploy a flow from a project by creating a Prefect deployment. 
 
 inputs:
+  additional-args:
+    description:
+      Any additinal arguments that need to be passed to
+      the prefect deployment run in a space separated format.
+      i.e - `--variable foo=bar -t 1.0.0 --cron "* * * * *"`.
+    required: false
+
+  entrypoint:
+    description:
+      The path to a flow entrypoint within a project,
+      in format `./path/to/file.py:flow_func_name`.
+    required: true
+    
+  name:
+    description:
+      The name to give the deployment.
+    required: true
+
   prefect-api-key:
     description:
       API Key to authenticate with Prefect.
@@ -12,11 +30,6 @@ inputs:
   prefect-workspace:
     description:
       Full handle of workspace, in format `<account_handle>/<workspace_handle>``.
-    required: true
-
-  name:
-    description:
-      The name to give the deployment.
     required: true
 
   requirements-file-path:
@@ -30,20 +43,6 @@ inputs:
     description:
       The work pool that will handle this deployment's runs.
     required: true
-
-  entrypoint:
-    description:
-      The path to a flow entrypoint within a project,
-      in format `./path/to/file.py:flow_func_name`.
-    required: true
-
-  additional-args:
-    description:
-      Any additinal arguments that need to be passed to
-      the prefect deployment run in a space separated format.
-      i.e - `--variable foo=bar -t 1.0.0 --cron "* * * * *"`.
-    required: false
-
 
 runs:
   using: composite

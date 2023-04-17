@@ -1,13 +1,15 @@
-# actions-prefect-deploy-project
+# actions-prefect-deploy
 
 ## Details
 
-A Github Action to deploy one or more of your Prefect flow deployments via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects)
+A Github Action to deploy a Prefect flow via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects)
 
 ## Requirements
 
 - Access to a [Prefect Cloud Account](https://docs.prefect.io/latest/ui/cloud/#welcome-to-prefect-cloud)
-- [Checkout](https://github.com/actions/checkout), [Setup Python](https://github.com/actions/setup-python), & [Docker Login](https://github.com/marketplace/actions/docker-login)/Cloud Docker Registry Login (If building and pushing a Docker artifact)
+- [Checkout](https://github.com/actions/checkout) - to clone the repo
+- [Setup Python](https://github.com/actions/setup-python) - to install prefect & other requirements
+- (optional) [Docker Login](https://github.com/marketplace/actions/docker-login) / Cloud Docker Registry Login if building and pushing a Docker artifact
 
 ## Inputs
 
@@ -18,7 +20,7 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 | name | The name to give the deployment. | true | |
 | prefect-api-key | API Key to authenticate with Prefect. | true | |
 | prefect-workspace | Full handle of workspace, in format `<account_handle>/<workspace_handle>`. | true | |
-| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow(s). | false | `./requirements.txt` |
+| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow. | false | `./requirements.txt` |
 | work-pool | The work pool that will handle this deployment's runs. | true | |
 
 ## Examples
@@ -27,7 +29,7 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 
 Deploy a Prefect flow that doesn't have a `push` step defined in the `prefect.yaml`
 ```yaml
-name: Deploy a Prefect Deployment
+name: Deploy a Prefect flow
 on:
   push:
     branches:
@@ -45,7 +47,7 @@ jobs:
           python-version: '3.10'
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy-project@v1
+        uses: PrefectHQ/actions-prefect-deploy@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
@@ -57,9 +59,9 @@ jobs:
 ```
 ### Basic Docker Auth w/ Prefect Deploy
 
-Deploy a Prefect Deployment and also build a Docker image that pushes to a defined repository in the `prefect.yaml` file.
+Deploy a Prefect flow and also build a Docker artifact that pushes to a defined repository in the `prefect.yaml` file.
 ```yaml
-name: Build an Image and Deploy a Prefect Deployment
+name: Build an Image and Deploy a Prefect flow
 on:
   push:
     branches:
@@ -83,7 +85,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy-project@v1
+        uses: PrefectHQ/actions-prefect-deploy@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
@@ -95,9 +97,9 @@ jobs:
 ```
 ### GCP Workload Identity w/ Prefect Deploy
 
-Deploy a Prefect Deployment and also build a Docker image that pushes to a defined repository in the `prefect.yaml` file.
+Deploy a Prefect flow and also build a Docker artifact that pushes to a defined repository in the `prefect.yaml` file.
 ```yaml
-name: Build an Image and Deploy a Prefect Deployment
+name: Build an Image and Deploy a Prefect flow
 on:
   push:
     branches:
@@ -124,7 +126,7 @@ jobs:
           python-version: '3.10'
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy-project@v1
+        uses: PrefectHQ/actions-prefect-deploy@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
