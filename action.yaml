@@ -1,5 +1,5 @@
 ---
-name: actions-prefect-deploy-project
+name: prefect-deploy-project
 author: PrefectHQ
 description: Build and Release a Prefect Deployment
 

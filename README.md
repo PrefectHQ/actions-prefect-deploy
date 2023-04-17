@@ -1,4 +1,4 @@
-# actions-prefect-deploy-project
+# prefect-deploy-project
 ## Details
 A Github Action to deploy one or more of your Prefect flow deployments via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects)
 
@@ -45,7 +45,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy-project@v1
+        uses: PrefectHQ/actions-deploy-project@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
@@ -85,7 +85,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - uses: prefecthq/actions-prefect-deploy-project@v1
+      - uses: prefecthq/actions-deploy-project@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
