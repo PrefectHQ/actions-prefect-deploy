@@ -3,7 +3,7 @@ name: lint yaml files
 
 "on":
   pull_request:
-    branches: ['main']
+    branches: [main]
 
 jobs:
   lintAllTheThings:
