@@ -18,7 +18,7 @@ work_pool:
   name: simple-pool
   work_queue_name: null
 ```
-You will not need to pass your work-pool name, or the deployment name to this action.
+You will not need to pass your work-pool name or the deployment name to this action.
 
 ## Requirements
 
