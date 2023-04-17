@@ -128,18 +128,16 @@ jobs:
           additional-args: --cron "30 19 * * 0"
 ```
 ## Additional Arguments
-| Arg Name      | Description                                                                                                             |
-|---------------|-------------------------------------------------------------------------------------------------------------------------|
-| --work-queue  | The work queue that will handle this deployment's runs. It will be created if it doesn't already exist. Defaults to `None`. |
-| --flow        | The name of a registered flow to create a deployment for. (Use in place of an entrypoint)                               |
-| --description | The description to give the deployment. If not provided, the description will be populated from the flow's description. |
-| --version     | A version to give the deployment.                                                                                       |
-| --tag         | One or more optional tags to apply to the deployment. Note: tags are used only for organizational purposes.             |
-| --variable    | One or more job variable overrides for the work pool provided in the format of key=value                                |
-| --cron        | A cron string that will be used to set a CronSchedule on the deployment.                                                |
-| --interval    | An integer specifying an interval (in seconds) that will be used to set an IntervalSchedule on the deployment.          |
-| --anchor-date | The anchor date for an interval schedule                                                                                |
-| --rrule       | An RRule that will be used to set an RRuleSchedule on the deployment.                                                   |
-| --timezone    | Deployment schedule timezone string e.g. 'America/New_York'                                                             |
-| --param       | An optional parameter override, values are parsed as JSON strings e.g. --param question=ultimate --param answer=42      |
-| --params      | An optional parameter override in a JSON string format e.g. --params='{"question": "ultimate", "answer": 42}'           |
+| Arg Name | Description | Example |
+|----------|-------------|---------|
+| --anchor-date | The anchor date for an interval schedule | |
+| --cron | A cron string that will be used to set a CronSchedule on the deployment | `--cron "30 19 * * 0" `|
+| --description | The description to give the deployment. If not provided, the description will be populated from the flow's description | |
+| --interval | An integer specifying an interval (in seconds) that will be used to set an IntervalSchedule on the deployment | `--interval 60` |
+| --param | An optional parameter override, values are parsed as JSON strings | `--param question=ultimate --param answer=42` |
+| --params | An optional parameter override in a JSON string format | `--params='{"question": "ultimate", "answer": 42}'` |
+| --rrule | An RRule that will be used to set an RRuleSchedule on the deployment | |
+| --tag | One or more optional tags to apply to the deployment - Note: tags are used only for organizational purposes | |
+| --timezone | Deployment schedule timezone string | `--timezone 'America/New_York'` |
+| --variable | One or more job variable overrides for the work pool | `--variable foo=bar` |
+| --version | A version to give the deployment | |
