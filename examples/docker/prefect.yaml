@@ -1,7 +1,7 @@
 # File for configuring project / deployment build, push and pull steps
 
 # Generic metadata about this project
-name: projects-test
+name: docker
 prefect-version: 2.10.4
 
 # build section allows you to manage and build docker images
@@ -9,7 +9,7 @@ build:
     - prefect_docker.projects.steps.build_docker_image:
           requires: prefect-docker>0.1.0
           image_name: EXAMPLE_IMAGE_REGISTRY
-          tag: null
+          tag: latest
           dockerfile: auto
 
 # push section allows you to manage if
@@ -20,6 +20,6 @@ push: null
 # for cloning this project in remote locations
 pull:
     - prefect.projects.steps.git_clone_project:
-          repository: https://github.com/PrefectHQ/prefect-gha
+          repository: git@github.com:PrefectHQ/actions-project-deploy.git
           branch: main
-          access_token: "{{ prefect.blocks.secret.test-ro-gh }}"
+          access_token: "{{ prefect.blocks.secret.docker-github-pat }}"

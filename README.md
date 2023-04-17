@@ -7,21 +7,53 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 - [Checkout](https://github.com/actions/checkout), [Setup Python](https://github.com/actions/setup-python), & [Docker Login](https://github.com/marketplace/actions/docker-login)/Cloud Docker Registry Login (If building and pushing a Docker artifact)
 
 ## Inputs
-| Input                  | Requirement  | Description                                                                                                                                                                        |
-|------------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| prefect-api-key        | Required     | A Prefect Cloud API Key                                                                                                                                                            |
-| prefect-workspace      | Required     | Full handle of workspace, in format `<account_handle>/<workspace_handle>`                                                                                                          |
-| name                   | Required     | A name to give the deployment                                                                                                                                                      |
-| requirements-file-path | Required     | ath to requirements files to correctly install dependencies for your Prefect flow(s).  Defaults to the GH Workspace/requirements.txt                                               |
-| work-pool              | Required     | The work pool that will handle this deployment's runs                                                                                                                              |
-| work-queue             | Not Required     | The work queue that will handle this deployment's runs (Defaults to `default`)                                                                                                     |
-| entrypoint             | Not Required | The path to a flow entrypoint within a project, in the form of `./path/to/file.py:flow_func_name` (Required unless the `--flow` argument is specified in place of the entrypoint.) |
-| additional-args        | Not Required | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below                                                                    |
+| Input | Desription | Required | Default |
+|-------|------------|----------|---------|
+| additional-args | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below | false | |
+| entrypoint | The path to a flow entrypoint within a project, in the format of: `./path/to/file.py:flow_func_name` | true | |
+| name | A name to give the deployment | true | |
+| prefect-api-key | A Prefect Cloud API Key | true | |
+| prefect-workspace | Full handle of workspace, in the format of: `<account_handle>/<workspace_handle>` | true | |
+| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow(s) |  true | ./requirements.txt
+| work-pool | The work pool that will handle this deployment's runs | true | |
+| work-queue | The work queue that will handle this deployment's runs | false | `default` |
 
 ## Examples
-### Basic Docker Auth w/ Deploy
+### Simple Prefect Deploy
+Deploy a Prefect flow that doesn't have a `push` step defined in the `prefect.yaml`
 ```yaml
-name: Build and Deploy a Prefect Deployment
+name: Deploy a Prefect Deployment
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy-flow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: checkout@v3
+
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Run Prefect Deploy
+        uses: PrefectHQ/prefect-project-deploy@v1
+        with:
+          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
+          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
+          name: simple-deployment
+          requirements-file: ./examples/simple/requirements.txt
+          work-pool: simple-pool
+          entrypoint: ./examples/simple/flow.py:call_api
+          additional-args: --cron "30 19 * * 0"
+```
+### Basic Docker Auth w/ Prefect Deploy
+Deploy a Prefect Deployment and also build a Docker image that pushes to a defined repository in the `prefect.yaml` file.
+```yaml
+name: Build an Image and Deploy a Prefect Deployment
 on:
   push:
     branches:
@@ -49,15 +81,16 @@ jobs:
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
-          name: test-docker-deployment
-          requirements-file: ./flows/requirements.txt
-          work-pool: docker-work-pool
-          entrypoint: ./example/flows/flow.py:call_api
-          additional-args: --work-queue default --var foo=bar --cron "30 19 * * 0"
+          name: basic-docker-auth-deployment
+          requirements-file: ./examples/docker/requirements.txt
+          work-pool: docker-pool
+          entrypoint: ./examples/docker/flow.py:call_api
+          additional-args: --cron "30 19 * * 0"
 ```
-### GCP Workload Identity 
+### GCP Workload Identity w/ Prefect Deploy
+Deploy a Prefect Deployment and also build a Docker image that pushes to a defined repository in the `prefect.yaml` file.
 ```yaml
-name: Build and Deploy a Prefect Deployment
+name: Build an Image and Deploy a Prefect Deployment
 on:
   push:
     branches:
@@ -72,7 +105,7 @@ jobs:
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: ${{ vars.GHA_WORKLOAD_IDENTITY_PROVIDER }}
+          workload_identity_provider: projects/<project_id>/locations/global/workloadIdentityPools/<pool-name>/providers/<provider-name>
           service_account: <gcp_service_account>@<project_id>.iam.gserviceaccount.com
 
       - name: Configure Google Cloud credential helper
@@ -88,11 +121,11 @@ jobs:
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
-          name: test-docker-deployment
-          requirements-file: ./flows/requirements.txt
-          work-pool: docker-work-pool
-          entrypoint: ./example/flows/flow.py:call_api
-          additional-args: --work-queue default --var foo=bar --cron "30 19 * * 0"
+          name: gcp-workload-identity-auth-deployment
+          requirements-file: ./examples/docker/requirements.txt
+          work-pool: docker-pool
+          entrypoint: ./examples/docker/flow.py:call_api
+          additional-args: --cron "30 19 * * 0"
 ```
 ## Additional Arguments
 | Arg Name      | Description                                                                                                             |

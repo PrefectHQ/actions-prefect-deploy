@@ -12,7 +12,8 @@ inputs:
 
   prefect-workspace:
     description:
-      A Prefect workspace where the deployment will run from.
+      A Prefect workspace where the deployment will run from, 
+      in the format of `<account_handle>/<workspace_handle>`
     required: true
 
   name:
@@ -24,7 +25,6 @@ inputs:
     description:
       Path to requirements files to correctly install
       dependencies for your Prefect flow(s).
-      Defaults to the GH Workspace/requirements.txt.
     required: true
     default: ${{ GITHUB_WORKSPACE }}/requirements.txt
 
@@ -43,10 +43,8 @@ inputs:
   entrypoint:
     description:
       The path to a flow entrypoint within a project,
-      in the form of `./path/to/file.py:flow_func_name`
-      Required unless the `--flow` argument is specified
-      in place of the entrypoint.
-    required: false
+      in the format of `./path/to/file.py:flow_func_name`
+    required: true
 
   additional-args:
     description:
