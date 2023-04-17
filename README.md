@@ -13,14 +13,14 @@ A Github Action to deploy one or more of your Prefect flow deployments via [Pref
 
 | Input | Desription | Required | Default |
 |-------|------------|----------|---------|
-| additional-args | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below | false | |
-| entrypoint | The path to a flow entrypoint within a project, in the format of: `./path/to/file.py:flow_func_name` | true | |
-| name | A name to give the deployment | true | |
-| prefect-api-key | A Prefect Cloud API Key | true | |
+| additional-args | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below. | false | |
+| entrypoint | The path to a flow entrypoint within a project, in the format of: `./path/to/file.py:flow_func_name`. | true | |
+| name | The name to give the deployment. | true | |
+| prefect-api-key | A Prefect Cloud API Key. | true | |
 | prefect-workspace | Full handle of workspace, in the format of: `<account_handle>/<workspace_handle>` | true | |
-| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow(s) | false | `./requirements.txt` |
-| work-pool | The work pool that will handle this deployment's runs | true | |
-| work-queue | The work queue that will handle this deployment's runs | false | `default` |
+| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow(s). | false | `./requirements.txt` |
+| work-pool | The work pool that will handle this deployment's runs. | true | |
+| work-queue | The work queue that will handle this deployment's runs. It will be created if it doesn't already exist. | false | `default` |
 
 ## Examples
 
@@ -51,9 +51,9 @@ jobs:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           name: simple-deployment
-          requirements-file: examples/simple/requirements.txt
+          requirements-file: ./examples/simple/requirements.txt
           work-pool: simple-pool
-          entrypoint: examples/simple/flow.py:call_api
+          entrypoint: ./examples/simple/flow.py:call_api
           additional-args: --cron "30 19 * * 0"
 ```
 ### Basic Docker Auth w/ Prefect Deploy
@@ -89,9 +89,9 @@ jobs:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           name: basic-docker-auth-deployment
-          requirements-file: examples/docker/requirements.txt
+          requirements-file: ./examples/docker/requirements.txt
           work-pool: docker-pool
-          entrypoint: examples/docker/flow.py:call_api
+          entrypoint: ./examples/docker/flow.py:call_api
           additional-args: --cron "30 19 * * 0"
 ```
 ### GCP Workload Identity w/ Prefect Deploy
@@ -130,23 +130,23 @@ jobs:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
           name: gcp-workload-identity-auth-deployment
-          requirements-file: examples/docker/requirements.txt
+          requirements-file: ./examples/docker/requirements.txt
           work-pool: docker-pool
-          entrypoint: examples/docker/flow.py:call_api
+          entrypoint: ./examples/docker/flow.py:call_api
           additional-args: --cron "30 19 * * 0"
 ```
 ## Additional Arguments
 
 | Arg Name | Description | Example |
 |----------|-------------|---------|
-| --anchor-date | The anchor date for an interval schedule | |
-| --cron | A cron string that will be used to set a CronSchedule on the deployment | `--cron "30 19 * * 0" `|
-| --description | The description to give the deployment. If not provided, the description will be populated from the flow's description | |
-| --interval | An integer specifying an interval (in seconds) that will be used to set an IntervalSchedule on the deployment | `--interval 60` |
+| --anchor-date | The anchor date for an interval schedule. | |
+| --cron | A cron string that will be used to set a CronSchedule on the deployment. | `--cron "30 19 * * 0" `|
+| --description | The description to give the deployment. If not provided, the description will be populated from the flow's description. | |
+| --interval | An integer specifying an interval (in seconds) that will be used to set an IntervalSchedule on the deployment. | `--interval 60` |
 | --param | An optional parameter override, values are parsed as JSON strings | `--param question=ultimate --param answer=42` |
-| --params | An optional parameter override in a JSON string format | `--params='{"question": "ultimate", "answer": 42}'` |
-| --rrule | An RRule that will be used to set an RRuleSchedule on the deployment | |
-| --tag | One or more optional tags to apply to the deployment - Note: tags are used only for organizational purposes | |
-| --timezone | Deployment schedule timezone string | `--timezone 'America/New_York'` |
-| --variable | One or more job variable overrides for the work pool | `--variable foo=bar` |
-| --version | A version to give the deployment | |
+| --params | An optional parameter override in a JSON string format. | `--params='{"question": "ultimate", "answer": 42}'` |
+| --rrule | An RRule that will be used to set an RRuleSchedule on the deployment. | |
+| --tag | One or more optional tags to apply to the deployment - Note: tags are used only for organizational purposes. | |
+| --timezone | Deployment schedule timezone string. | `--timezone 'America/New_York'` |
+| --variable | One or more job variable overrides for the work pool. | `--variable foo=bar` |
+| --version | A version to give the deployment. | |
