@@ -159,4 +159,4 @@ jobs:
 | --work-queue | The work queue that will handle this deployment's runs. It will be created if it doesn't already exist. | `--work-queue test` |
 
 ## Terms & Conditions
-See here for the Prefect's [terms and conditions](https://www.prefect.io/legal/terms/)
+See here for the Prefect's [Terms and Conditions](https://www.prefect.io/legal/terms/).
