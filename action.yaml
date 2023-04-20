@@ -2,6 +2,9 @@
 name: Deploy a Prefect flow
 author: PrefectHQ
 description: Deploy a flow from a project by creating a Prefect deployment.
+branding:
+  icon: upload-cloud
+  color: blue
 
 inputs:
   additional-args:
