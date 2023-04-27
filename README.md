@@ -64,7 +64,7 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v1
+        uses: PrefectHQ/actions-prefect-deploy@v2
         with:
           requirements-file-path: ./examples/simple/requirements.txt
           entrypoint: ./examples/simple/flow.py:call_api
@@ -101,7 +101,7 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v1
+        uses: PrefectHQ/actions-prefect-deploy@v2
         with:
           requirements-file-path: ./examples/docker/requirements.txt
           entrypoint: ./examples/docker/flow.py:call_api
@@ -144,7 +144,7 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v1
+        uses: PrefectHQ/actions-prefect-deploy@v2
         with:
           requirements-file-path: ./examples/docker/requirements.txt
           entrypoint: ./examples/docker/flow.py:call_api
