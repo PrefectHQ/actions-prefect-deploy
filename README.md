@@ -25,6 +25,7 @@ You will not need to pass your work-pool name or the deployment name to this act
 - Access to a [Prefect Cloud Account](https://docs.prefect.io/latest/ui/cloud/#welcome-to-prefect-cloud)
 - [Checkout](https://github.com/actions/checkout) - to clone the repo
 - [Setup Python](https://github.com/actions/setup-python) - to install prefect & other requirements
+- [Prefect Auth](https://github.com/PrefectHQ/actions-prefect-auth) - to log into Prefect Cloud
 - (optional) [Docker Login](https://github.com/marketplace/actions/docker-login) / Cloud Docker Registry Login if building and pushing a Docker artifact
 
 ## Inputs
@@ -33,8 +34,6 @@ You will not need to pass your work-pool name or the deployment name to this act
 |-------|------------|----------|---------|
 | additional-args | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below. | false | |
 | entrypoint | The path to a flow entrypoint within a project, in format: `./path/to/file.py:flow_func_name`. | true | |
-| prefect-api-key | API Key to authenticate with Prefect. | true | |
-| prefect-workspace | Full handle of workspace, in format `<account_handle>/<workspace_handle>`. | true | |
 | requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow. | false | `./requirements.txt` |
 
 ## Examples
@@ -58,11 +57,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v1
+      - name: Prefect Auth
+        uses: PrefectHQ/actions-prefect-auth@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
+
+      - name: Run Prefect Deploy
+        uses: PrefectHQ/actions-prefect-deploy@v1
+        with:
           requirements-file-path: ./examples/simple/requirements.txt
           entrypoint: ./examples/simple/flow.py:call_api
           additional-args: --cron '30 19 * * 0'
@@ -91,11 +94,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v1
+      - name: Prefect Auth
+        uses: PrefectHQ/actions-prefect-auth@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
+
+      - name: Run Prefect Deploy
+        uses: PrefectHQ/actions-prefect-deploy@v1
+        with:
           requirements-file-path: ./examples/docker/requirements.txt
           entrypoint: ./examples/docker/flow.py:call_api
           additional-args: --cron '30 19 * * 0' --pool docker-pool
@@ -130,11 +137,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v1
+      - name: Prefect Auth
+        uses: PrefectHQ/actions-prefect-auth@v1
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
+
+      - name: Run Prefect Deploy
+        uses: PrefectHQ/actions-prefect-deploy@v1
+        with:
           requirements-file-path: ./examples/docker/requirements.txt
           entrypoint: ./examples/docker/flow.py:call_api
           additional-args: --cron '30 19 * * 0' --pool docker-pool
