@@ -25,6 +25,7 @@ You will not need to pass your work-pool name or the deployment name to this act
 - Access to a [Prefect Cloud Account](https://docs.prefect.io/latest/ui/cloud/#welcome-to-prefect-cloud)
 - [Checkout](https://github.com/actions/checkout) - to clone the repo
 - [Setup Python](https://github.com/actions/setup-python) - to install prefect & other requirements
+- [Prefect Auth](https://github.com/PrefectHQ/actions-prefect-auth) - to log into Prefect Cloud
 - (optional) [Docker Login](https://github.com/marketplace/actions/docker-login) / Cloud Docker Registry Login if building and pushing a Docker artifact
 
 ## Inputs
