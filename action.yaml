@@ -37,6 +37,7 @@ runs:
     - id: create_lists
       run: |
         IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
+        echo "The requirements are ${requirements_paths}"
       shell: bash
 
     - id: install-local-requirements
