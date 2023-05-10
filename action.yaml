@@ -41,9 +41,9 @@ runs:
 
     - id: install-local-requirements
       run: |
-        foreach req ${requirements_paths}
+        for req in ${requirements_paths}; do
           pip install -r $req
-        end
+        done
       shell: bash
 
     # - id: prefect-deploy
