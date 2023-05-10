@@ -32,6 +32,15 @@ runs:
       run: |
         IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
         for req in ${requirements_paths}; do
+          export PREFECT_VERSION="$(cat $req | grep prefect)"
+          IFS="==" read -r -A prefect_version <<< $PREFECT_VERSION
+          export PREFECT_VERSION=${prefect_version[3]}
+          if [$PREFECT_VERSION -lt "2.10.5"]
+          then
+            echo Prefect Version $PREFECT_VERSION is lower than the required version 2.10.5.  Exiting...
+            exit 1
+          fi
+        for req in ${requirements_paths}; do
           pip install -r $req
         done
       shell: bash
