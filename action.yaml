@@ -41,6 +41,7 @@ runs:
         PREFECT_SHORT_VERSION="$(cut -d "." -f 2 <<< "$PREFECT_VERSION")"."$(cut -d "." -f 3 <<< "$PREFECT_VERSION")"
         if [ $(echo $PREFECT_SHORT_VERSION'<'10.6 | bc -l) -eq 1 ];
         then
+          echo Prefect version too low: Updating to latest Prefect version...
           pip install prefect
         fi
         IFS=',' read -r -a deployment_names <<< ${{ inputs.deployment-names }}
