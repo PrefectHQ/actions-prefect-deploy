@@ -34,6 +34,7 @@ runs:
         for req in ${requirements_paths}; do
           export PREFECT_VERSION="$(cat $req | grep prefect)"
           IFS="==" read -r -a prefect_version <<< $PREFECT_VERSION
+          echo The string is $prefect_version
           export PREFECT_VERSION=${prefect_version[3]}
           echo The Prefect Version is $PREFECT_VERSION
           if [$PREFECT_VERSION -lt "2.10.5"]
