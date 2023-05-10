@@ -37,13 +37,13 @@ runs:
     - id: create_lists
       run: |
         IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
-        echo "The requirements are ${requirements_paths}"
+        echo "REQUIREMENTS_TXT=${requirements_paths}" >> $GITHUB_ENV
       shell: bash
 
     - id: install-local-requirements
       run: |
-        echo "The requirements are ${requirements_paths}"
-        for req in ${requirements_paths}; do
+        echo "The requirements are ${REQUIREMENTS_TXT}"
+        for req in ${REQUIREMENTS_TXT}; do
           pip install -r $req
         done
       shell: bash
