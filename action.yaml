@@ -39,6 +39,7 @@ runs:
       run: |
         PREFECT_VERSION=$(prefect --version)
         PREFECT_SHORT_VERSION="$(cut -d "." -f 2 <<< "$PREFECT_VERSION")"."$(cut -d "." -f 3 <<< "$PREFECT_VERSION")"
+        echo "The current Prefect version is $PREFECT_SHORT_VERSION"
         if [ $(echo $PREFECT_SHORT_VERSION'<'10.6 | bc -l) -eq 1 ];
         then
           echo Prefect version too low: Updating to latest Prefect version...
