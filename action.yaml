@@ -30,22 +30,6 @@ runs:
     - id: install-local-requirements
       if: ${{ inputs.requirements-file-paths != '' }}
       run: |
-        IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
-        for req in ${requirements_paths}; do
-          echo $req
-          export PREFECT_VERSION="$(cat $req | grep prefect)"
-          echo ok the whole string should be $PREFECT_VERSION
-          IFS='=='
-          read -r -a array <<< $PREFECT_VERSION
-          echo The string is ${array}
-          export PREFECT_VERSION=${array[3]}
-          echo The Prefect Version is $PREFECT_VERSION
-          if [ $PREFECT_VERSION -lt "2.10.6" ]
-          then
-            echo Prefect Version $PREFECT_VERSION is lower than the required version 2.10.6.  Exiting...
-            exit 1
-          fi
-        done
         for req in ${requirements_paths}; do
           pip install -r $req
         done
@@ -53,6 +37,12 @@ runs:
 
     - id: prefect-deploy
       run: |
+        PREFECT_VERSION=$(prefect --version)
+        PREFECT_SHORT_VERSION="$(cut -d "." -f 2 <<< "$PREFECT_VERSION")"."$(cut -d "." -f 3 <<< "$PREFECT_VERSION")"
+        if [ $PREFECT_SHORT_VERSION'<'10.6==1  ]
+        then
+          pip install prefect
+        fi
         IFS=',' read -r -a deployment_names <<< ${{ inputs.deployment-names }}
         for name in ${deployment_names}; do
           prefect deploy --name $name
