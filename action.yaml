@@ -34,7 +34,7 @@ runs:
   using: composite
   steps:
     # Maybe install prefect
-    - id: create lists
+    - id: create_lists
       run: |
         IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
       shell: bash
