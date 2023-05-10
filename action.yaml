@@ -39,7 +39,7 @@ runs:
       run: |
         PREFECT_VERSION=$(prefect --version)
         PREFECT_SHORT_VERSION="$(cut -d "." -f 2 <<< "$PREFECT_VERSION")"."$(cut -d "." -f 3 <<< "$PREFECT_VERSION")"
-        if [ $(echo $PREFECT_SHORT_VERSION'<'10.6 | bc -l) -gt 0 ];
+        if [ $(echo $PREFECT_SHORT_VERSION'<'10.6 | bc -l) -eq 1 ];
         then
           pip install prefect
         fi
