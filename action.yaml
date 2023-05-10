@@ -7,23 +7,25 @@ branding:
   color: blue
 
 inputs:
-  additional-args:
-    description:
-      Any additinal arguments that need to be passed to
-      the prefect deployment run in a space separated format.
-      i.e - `--variable foo=bar -t 1.0.0 --cron "* * * * *"`.
-    required: false
+  # additional-args:
+  #   description:
+  #     Any additinal arguments that need to be passed to
+  #     the prefect deployment run in a space separated format.
+  #     i.e - `--variable foo=bar -t 1.0.0 --cron "* * * * *"`.
+  #   required: false
 
-  entrypoint:
-    description:
-      The path to a flow entrypoint within a project,
-      in format `./path/to/file.py:flow_func_name`.
-    required: true
+  # entrypoint:
+  #   description:
+  #     The path to a flow entrypoint within a project,
+  #     in format `./path/to/file.py:flow_func_name`.
+  #   required: true
 
-  requirements-file-path:
+  requirements-file-paths:
     description:
-      Path to requirements files to correctly install
+      Comma sepearated list of paths to 
+      requirements files to correctly install
       dependencies for your Prefect flow(s).
+      example './flow1/requirements.txt,./flow2/requirements.txt'
     required: false
     default: ./requirements.txt
 
@@ -31,12 +33,21 @@ inputs:
 runs:
   using: composite
   steps:
-    - id: install-local-requirements
-      run: pip install -r ${{ inputs.requirements-file-path }}
+    # Maybe install prefect
+    - id: create lists
+      run: |
+        IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
       shell: bash
 
-    - id: prefect-deploy
+    - id: install-local-requirements
       run: |
-        prefect deploy ${{ inputs.entrypoint }} \
-         ${{ inputs.additional-args }}
+        foreach req ${requirements_paths}
+          pip install -r $req
+        end
       shell: bash
+
+    # - id: prefect-deploy
+    #   run: |
+    #     prefect deploy ${{ inputs.entrypoint }} \
+    #      ${{ inputs.additional-args }}
+    #   shell: bash
