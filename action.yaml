@@ -41,6 +41,7 @@ runs:
 
     - id: install-local-requirements
       run: |
+        echo "The requirements are ${requirements_paths}"
         for req in ${requirements_paths}; do
           pip install -r $req
         done
