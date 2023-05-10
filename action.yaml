@@ -40,6 +40,7 @@ runs:
             echo Prefect Version $PREFECT_VERSION is lower than the required version 2.10.5.  Exiting...
             exit 1
           fi
+        done
         for req in ${requirements_paths}; do
           pip install -r $req
         done
