@@ -40,9 +40,9 @@ runs:
           echo The string is ${array}
           export PREFECT_VERSION=${array[3]}
           echo The Prefect Version is $PREFECT_VERSION
-          if [$PREFECT_VERSION -lt "2.10.5"]
+          if [ $PREFECT_VERSION -lt "2.10.6" ]
           then
-            echo Prefect Version $PREFECT_VERSION is lower than the required version 2.10.5.  Exiting...
+            echo Prefect Version $PREFECT_VERSION is lower than the required version 2.10.6.  Exiting...
             exit 1
           fi
         done
