@@ -28,25 +28,27 @@ runs:
   using: composite
   steps:
     # Maybe install prefect
-    - id: create_lists
-      run: |
-        IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
-        IFS=',' read -r -a deployment_names <<< ${{ inputs.deployment-names }}
-        echo "REQUIREMENTS_TXT=${requirements_paths[@]}" >> $GITHUB_ENV
-        echo "DEPLOYMENT_NAMES=${deployment_names[@]}" >> $GITHUB_ENV
-      shell: bash
+    # - id: create_lists
+    #   run: |
+    #     IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
+    #     IFS=',' read -r -a deployment_names <<< ${{ inputs.deployment-names }}
+    #     echo "REQUIREMENTS_TXT=${requirements_paths[@]}" >> $GITHUB_ENV
+    #     echo "DEPLOYMENT_NAMES=${deployment_names[@]}" >> $GITHUB_ENV
+    #   shell: bash
 
     - id: install-local-requirements
-      if: ${{ env.REQUIREMENTS_TXT != '' }}
+      if: ${{ inputs.requirements-file-paths != '' }}
       run: |
-        for req in ${REQUIREMENTS_TXT}; do
+        IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
+        for req in requirements_paths; do
           pip install -r $req
         done
       shell: bash
 
     - id: prefect-deploy
       run: |
-        for name in ${DEPLOYMENT_NAMES}; do
+        IFS=',' read -r -a deployment_names <<< ${{ inputs.deployment-names }}
+        for name in ${deployment_names}; do
           prefect deploy --name $name
         done
       shell: bash
