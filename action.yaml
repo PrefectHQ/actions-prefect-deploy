@@ -35,6 +35,7 @@ runs:
           export PREFECT_VERSION="$(cat $req | grep prefect)"
           IFS="==" read -r -a prefect_version <<< $PREFECT_VERSION
           export PREFECT_VERSION=${prefect_version[3]}
+          echo The Prefect Version is $PREFECT_VERSION
           if [$PREFECT_VERSION -lt "2.10.5"]
           then
             echo Prefect Version $PREFECT_VERSION is lower than the required version 2.10.5.  Exiting...
