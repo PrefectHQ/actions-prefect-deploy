@@ -25,7 +25,7 @@ inputs:
       Prefect deployments.
       example 'deployment1,deployment2'
     required: false
-    default: ./requirements.txt
+    default: deployment
 
   requirements-file-paths:
     description:
