@@ -37,7 +37,7 @@ runs:
       shell: bash
 
     - id: install-local-requirements
-      if: $REQUIREMENTS_TXT != ""
+      if: ${REQUIREMENTS_TXT} != ""
       run: |
         for req in ${REQUIREMENTS_TXT}; do
           pip install -r $req
