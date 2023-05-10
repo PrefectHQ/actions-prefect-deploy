@@ -35,7 +35,7 @@ runs:
           echo $req
           export PREFECT_VERSION="$(cat $req | grep prefect)"
           echo ok the whole string should be $PREFECT_VERSION
-          IFS='\==\' read -r -a array <<< $PREFECT_VERSION
+          IFS='\=\=' read -r -a array <<< $PREFECT_VERSION
           echo The string is $array
           export PREFECT_VERSION=${array[3]}
           echo The Prefect Version is $PREFECT_VERSION
