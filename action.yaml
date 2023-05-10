@@ -7,18 +7,6 @@ branding:
   color: blue
 
 inputs:
-  # additional-args:
-  #   description:
-  #     Any additinal arguments that need to be passed to
-  #     the prefect deployment run in a space separated format.
-  #     i.e - `--variable foo=bar -t 1.0.0 --cron "* * * * *"`.
-  #   required: false
-
-  # entrypoint:
-  #   description:
-  #     The path to a flow entrypoint within a project,
-  #     in format `./path/to/file.py:flow_func_name`.
-  #   required: true
   deployment-names:
     description:
       Comma sepearated list of names of your 

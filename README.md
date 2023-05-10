@@ -2,23 +2,20 @@
 
 ## Details
 
-A Github Action to deploy a Prefect flow via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration defined in your `deployment.yaml` will be infered at run time; this means you do **not** need to duplicate cli arguments that are already defined. For example, if your `deployment.yaml` looks like: 
+A Github Action to deploy one or more Prefect deployments via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration must be defined in your `deployment.yaml` which will be infered at run time; this means you **cannot** pass any additional CLI arguments. For example, your `deployment.yaml` should have the following configuration in place: 
 ```yaml
-description: null
-entrypoint: examples/simple/flow.py:call_api
-flow_name: null
-name: Simple
-parameters: {}
-schedule: null
-tags: []
-version: null
-work_pool:
-  job_variables:
-    image: prefecthq/prefect:2-latest
-  name: simple-pool
-  work_queue_name: null
+deployments:
+  - name: Simple
+    description: null
+    entrypoint: examples/simple/flow.py:call_api
+    flow_name: null
+    parameters: {}
+    schedule: null
+    tags: []
+    version: null
+    work_pool:
+      name: simple-pool
 ```
-You will not need to pass your work-pool name or the deployment name to this action.
 
 ## Requirements
 
@@ -32,9 +29,8 @@ You will not need to pass your work-pool name or the deployment name to this act
 
 | Input | Desription | Required | Default |
 |-------|------------|----------|---------|
-| additional-args | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below. | false | |
-| entrypoint | The path to a flow entrypoint within a project, in format: `./path/to/file.py:flow_func_name`. | true | |
-| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow. | false | `./requirements.txt` |
+| deployment-names | Comma separated list of deployment names defined in the deployment.yaml file. | true | `deployment` |
+| requirements-file-paths | Comma sepearated list of paths to requirements files to correctly install dependencies for your Prefect flow(s). | false | `./requirements.txt` |
 
 ## Examples
 
@@ -64,11 +60,40 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v2
+        uses: PrefectHQ/actions-prefect-deploy@v3
         with:
-          requirements-file-path: ./examples/simple/requirements.txt
-          entrypoint: ./examples/simple/flow.py:call_api
-          additional-args: --cron '30 19 * * 0'
+          requirements-file-paths: ./examples/simple/requirements.txt
+```
+### Multi-Deployment Prefect Deploy
+
+Deploy multiple Prefect deployments that doesn't have a `push` step defined in the `prefect.yaml`
+```yaml
+name: Deploy multiple Prefect deployments
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy_flow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Prefect Auth
+        uses: PrefectHQ/actions-prefect-auth@v1
+        with:
+          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
+          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
+
+      - name: Run Prefect Deploy
+        uses: PrefectHQ/actions-prefect-deploy@v3
+        with:
+
+          requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
 ```
 ### Basic Docker Auth w/ Prefect Deploy
 
