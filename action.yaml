@@ -50,16 +50,14 @@ runs:
 
     - id: install-local-requirements
       run: |
-        echo ${REQUIREMENTS_TXT}
-        echo ${DEPLOYMENT_NAMES}
         for req in ${REQUIREMENTS_TXT}; do
           pip install -r $req
         done
       shell: bash
 
-    # - id: prefect-deploy
-    #   run: |
-    #     for name in ${DEPLOYMENT_NAMES}; do
-    #       prefect deploy --name $name
-    #     done
-    #   shell: bash
+    - id: prefect-deploy
+      run: |
+        for name in ${DEPLOYMENT_NAMES}; do
+          prefect deploy --name $name
+        done
+      shell: bash
