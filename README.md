@@ -67,6 +67,7 @@ jobs:
           deployment-names: Simple
           requirements-file-paths: ./examples/simple/requirements.txt
 ```
+
 ### Multi-Deployment Prefect Deploy
 
 Deploy multiple Prefect deployments that doesn't have a `push` step defined in the `prefect.yaml`
@@ -95,7 +96,7 @@ jobs:
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v3
         with:
-
+          deployment-names: Simple_Deployment_1,Simple_Deployment_2
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
 ```
 ### Basic Docker Auth w/ Prefect Deploy
