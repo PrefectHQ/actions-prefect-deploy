@@ -29,10 +29,10 @@ Additionally, the `prefect deploy` command needs to load your flow in order to g
 
 ## Inputs
 
-| Input | Desription | Required | Default |
-|-------|------------|----------|---------|
-| deployment-names | Comma separated list of deployment names defined in the deployment.yaml file. | true | `deployment` |
-| requirements-file-paths | Comma sepearated list of paths to requirements files to correctly install dependencies for your Prefect flow(s). | false | `./requirements.txt` |
+| Input | Desription | Required |
+|-------|------------|----------|
+| deployment-names | Comma separated list of deployment names defined in the deployment.yaml file. | true |
+| requirements-file-paths | Comma sepearated list of paths to requirements files to correctly install dependencies for your Prefect flow(s). | false |
 
 ## Examples
 
@@ -64,6 +64,7 @@ jobs:
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v3
         with:
+          deployment-names: Simple
           requirements-file-paths: ./examples/simple/requirements.txt
 ```
 ### Multi-Deployment Prefect Deploy
