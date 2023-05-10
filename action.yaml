@@ -31,7 +31,7 @@ runs:
       if: ${{ inputs.requirements-file-paths != '' }}
       run: |
         IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
-        for req in requirements_paths; do
+        for req in ${requirements_paths}; do
           pip install -r $req
         done
       shell: bash
