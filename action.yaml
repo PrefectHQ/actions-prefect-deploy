@@ -17,7 +17,7 @@ inputs:
 
   requirements-file-paths:
     description:
-      Comma sepearated list of paths to
+      Comma separated list of paths to
       requirements files to correctly install
       dependencies for your Prefect flow(s).
       example './flow1/requirements.txt,./flow2/requirements.txt'
