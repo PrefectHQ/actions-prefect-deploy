@@ -9,7 +9,7 @@ branding:
 inputs:
   deployment-names:
     description:
-      Comma sepearated list of names of your
+      Comma separated list of names of your
       Prefect deployments.
       example 'deployment1,deployment2'
     required: false
