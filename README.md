@@ -2,23 +2,22 @@
 
 ## Details
 
-A Github Action to deploy a Prefect flow via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration defined in your `deployment.yaml` will be infered at run time; this means you do **not** need to duplicate cli arguments that are already defined. For example, if your `deployment.yaml` looks like: 
+A Github Action to deploy one or more Prefect deployments via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration must be defined in your `deployment.yaml`, which will be infered at run time; this means you **cannot** pass any additional CLI arguments. For example, your `deployment.yaml` should have the following configuration in place: 
 ```yaml
-description: null
-entrypoint: examples/simple/flow.py:call_api
-flow_name: null
-name: Simple
-parameters: {}
-schedule: null
-tags: []
-version: null
-work_pool:
-  job_variables:
-    image: prefecthq/prefect:2-latest
-  name: simple-pool
-  work_queue_name: null
+deployments:
+  - name: Simple
+    description: null
+    entrypoint: examples/simple/flow.py:call_api
+    flow_name: null
+    parameters: {}
+    schedule: null
+    tags: []
+    version: null
+    work_pool:
+      name: simple-pool
 ```
-You will not need to pass your work-pool name or the deployment name to this action.
+
+Additionally, the `prefect deploy` command needs to load your flow in order to gather some information about it. This results in the module that the flow is in being loaded, which can result in errors if not all the dependencies are present (issue [9512](https://github.com/PrefectHQ/prefect/issues/9512)). As a result, this action takes in a comma-seperated list of requirments to pre-load these ahead of running `prefect deploy`. This will **not** result in a generic image being created, but rather used to satisfy a pre-flight check required by the Prefect CLI. If building one or many custom docker images, those will still be isolated and only install the relevant dependencies defined as a part of your Dockerfile.
 
 ## Requirements
 
@@ -30,11 +29,10 @@ You will not need to pass your work-pool name or the deployment name to this act
 
 ## Inputs
 
-| Input | Desription | Required | Default |
-|-------|------------|----------|---------|
-| additional-args | Any additional arguments to pass to the Prefect Deploy command. Available additional arguments are listed below. | false | |
-| entrypoint | The path to a flow entrypoint within a project, in format: `./path/to/file.py:flow_func_name`. | true | |
-| requirements-file-path | Path to requirements files to correctly install dependencies for your Prefect flow. | false | `./requirements.txt` |
+| Input | Desription | Required |
+|-------|------------|----------|
+| deployment-names | Comma separated list of deployment names defined in the deployment.yaml file. | true |
+| requirements-file-paths | Comma sepearated list of paths to requirements files to correctly install dependencies for your Prefect flow(s). | false |
 
 ## Examples
 
@@ -64,12 +62,34 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v2
+        uses: PrefectHQ/actions-prefect-deploy@v3
         with:
-          requirements-file-path: ./examples/simple/requirements.txt
-          entrypoint: ./examples/simple/flow.py:call_api
-          additional-args: --cron '30 19 * * 0'
+          deployment-names: Simple
+          requirements-file-paths: ./examples/simple/requirements.txt
 ```
+
+### Multi-Deployment Prefect Deploy
+
+Deploy multiple Prefect deployments that doesn't have a `push` step defined in the `prefect.yaml`
+```yaml
+name: Deploy multiple Prefect deployments
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy_flow:
+    runs-on: ubuntu-latest
+    steps:
+      - ...
+
+      - name: Run Prefect Deploy
+        uses: PrefectHQ/actions-prefect-deploy@v3
+        with:
+          deployment-names: Simple_Deployment_1,Simple_Deployment_2
+          requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
+```
+
 ### Basic Docker Auth w/ Prefect Deploy
 
 Deploy a Prefect flow and also build a Docker artifact that pushes to a defined repository in the `prefect.yaml` file.
@@ -101,11 +121,10 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v2
+        uses: PrefectHQ/actions-prefect-deploy@v3
         with:
-          requirements-file-path: ./examples/docker/requirements.txt
-          entrypoint: ./examples/docker/flow.py:call_api
-          additional-args: --cron '30 19 * * 0' --pool docker-pool
+          deployment-names: Docker
+          requirements-file-paths: ./examples/docker/requirements.txt
 ```
 ### GCP Workload Identity w/ Prefect Deploy
 
@@ -144,30 +163,11 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v2
+        uses: PrefectHQ/actions-prefect-deploy@v3
         with:
-          requirements-file-path: ./examples/docker/requirements.txt
-          entrypoint: ./examples/docker/flow.py:call_api
-          additional-args: --cron '30 19 * * 0' --pool docker-pool
+          deployment-names: Docker
+          requirements-file-paths: ./examples/docker/requirements.txt
 ```
-## Additional Arguments
-
-| Arg Name | Description | Example |
-|----------|-------------|---------|
-| --anchor-date | The anchor date for an interval schedule. | |
-| --cron | A cron string that will be used to set a CronSchedule on the deployment. | `--cron '30 19 * * 0' `|
-| --description | The description to give the deployment. If not provided, the description will be populated from the flow's description. | |
-| --interval | An integer specifying an interval (in seconds) that will be used to set an IntervalSchedule on the deployment. | `--interval 60` |
-| --name | The name to give the deployment. | `--name 'Test Flow'` |
-| --param | An optional parameter override, values are parsed as JSON strings | `--param question=ultimate --param answer=42` |
-| --params | An optional parameter override in a JSON string format. | `--params='{"question": "ultimate", "answer": 42}'` |
-| --pool | The work pool that will handle this deployment's runs. | `--pool docker-pool` |
-| --rrule | An RRule that will be used to set an RRuleSchedule on the deployment. | |
-| --tag | One or more optional tags to apply to the deployment - Note: tags are used only for organizational purposes. | |
-| --timezone | Deployment schedule timezone string. | `--timezone 'America/New_York'` |
-| --variable | One or more job variable overrides for the work pool. | `--variable foo=bar` |
-| --version | A version to give the deployment. | |
-| --work-queue | The work queue that will handle this deployment's runs. It will be created if it doesn't already exist. | `--work-queue test` |
 
 ## Terms & Conditions
 See here for the Prefect's [Terms and Conditions](https://www.prefect.io/legal/terms/).

@@ -7,36 +7,46 @@ branding:
   color: blue
 
 inputs:
-  additional-args:
+  deployment-names:
     description:
-      Any additinal arguments that need to be passed to
-      the prefect deployment run in a space separated format.
-      i.e - `--variable foo=bar -t 1.0.0 --cron "* * * * *"`.
+      Comma separated list of names of your
+      Prefect deployments.
+      example 'deployment1,deployment2'
     required: false
+    default: deployment
 
-  entrypoint:
+  requirements-file-paths:
     description:
-      The path to a flow entrypoint within a project,
-      in format `./path/to/file.py:flow_func_name`.
-    required: true
-
-  requirements-file-path:
-    description:
-      Path to requirements files to correctly install
+      Comma separated list of paths to
+      requirements files to correctly install
       dependencies for your Prefect flow(s).
+      example './flow1/requirements.txt,./flow2/requirements.txt'
     required: false
-    default: ./requirements.txt
-
+    default: ''
 
 runs:
   using: composite
   steps:
     - id: install-local-requirements
-      run: pip install -r ${{ inputs.requirements-file-path }}
+      if: ${{ inputs.requirements-file-paths != '' }}
+      run: |
+        IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
+        for req in ${requirements_paths}; do
+          pip install -r $req
+        done
       shell: bash
 
     - id: prefect-deploy
       run: |
-        prefect deploy ${{ inputs.entrypoint }} \
-         ${{ inputs.additional-args }}
+        PREFECT_VERSION=$(prefect --version)
+        PREFECT_SHORT_VERSION="$(cut -d "." -f 2 <<< "$PREFECT_VERSION")"."$(cut -d "." -f 3 <<< "$PREFECT_VERSION")"
+        if [ $(echo $PREFECT_SHORT_VERSION'<'10.6 | bc -l) -eq 1 ];
+        then
+          echo "The currently installed Prefect version (2.$PREFECT_SHORT_VERSION) is not compatible. Updating to the latest Prefect version..."
+          pip install prefect -U "prefect>=2.10.8"
+        fi
+        IFS=',' read -r -a deployment_names <<< ${{ inputs.deployment-names }}
+        for name in ${deployment_names}; do
+          prefect deploy --name $name
+        done
       shell: bash

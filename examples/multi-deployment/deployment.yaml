@@ -1,0 +1,27 @@
+deployments:
+  - name: Simple_Deployment_1
+    description: null
+    entrypoint: examples/multi-deployment/deployment-1/flow.py:call_api
+    flow_name: null
+    parameters: {}
+    schedule: null
+    tags: []
+    version: null
+    work_pool:
+      job_variables:
+        image: prefecthq/prefect:2-latest
+      name: simple-pool
+      work_queue_name: null
+  - name: Simple_Deployment_2
+    description: null
+    entrypoint: examples/multi-deployment/deployment-2/flow.py:call_api
+    flow_name: null
+    parameters: {}
+    schedule: null
+    tags: []
+    version: null
+    work_pool:
+      job_variables:
+        image: prefecthq/prefect:2-latest
+      name: simple-pool
+      work_queue_name: null

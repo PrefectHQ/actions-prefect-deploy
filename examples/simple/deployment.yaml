@@ -1,13 +1,14 @@
-description: null
-entrypoint: examples/simple/flow.py:call_api
-flow_name: null
-name: Simple
-parameters: {}
-schedule: null
-tags: []
-version: null
-work_pool:
-  job_variables:
-    image: prefecthq/prefect:2-latest
-  name: simple-pool
-  work_queue_name: null
+deployments:
+  - name: Simple
+    description: null
+    entrypoint: examples/simple/flow.py:call_api
+    flow_name: null
+    parameters: {}
+    schedule: null
+    tags: []
+    version: null
+    work_pool:
+      job_variables:
+        image: prefecthq/prefect:2-latest
+      name: simple-pool
+      work_queue_name: null
