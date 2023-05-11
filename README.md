@@ -81,17 +81,7 @@ jobs:
   deploy_flow:
     runs-on: ubuntu-latest
     steps:
-      - uses: checkout@v3
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v1
-        with:
-          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
-          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
+      - ...
 
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v3
