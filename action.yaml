@@ -9,7 +9,7 @@ branding:
 inputs:
   deployment-names:
     description:
-      Comma sepearated list of names of your 
+      Comma sepearated list of names of your
       Prefect deployments.
       example 'deployment1,deployment2'
     required: false
@@ -17,7 +17,7 @@ inputs:
 
   requirements-file-paths:
     description:
-      Comma sepearated list of paths to 
+      Comma sepearated list of paths to
       requirements files to correctly install
       dependencies for your Prefect flow(s).
       example './flow1/requirements.txt,./flow2/requirements.txt'
@@ -30,7 +30,10 @@ runs:
     - id: install-local-requirements
       if: ${{ inputs.requirements-file-paths != '' }}
       run: |
-        IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
+        IFS=',' \
+        read \
+        -r \
+        -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
         for req in ${requirements_paths}; do
           pip install -r $req
         done
@@ -42,7 +45,9 @@ runs:
         PREFECT_SHORT_VERSION="$(cut -d "." -f 2 <<< "$PREFECT_VERSION")"."$(cut -d "." -f 3 <<< "$PREFECT_VERSION")"
         if [ $(echo $PREFECT_SHORT_VERSION'<'10.6 | bc -l) -eq 1 ];
         then
-          echo "The currently installed Prefect version (2.$PREFECT_SHORT_VERSION) is not compatible: Updating to the latest Prefect version..."
+          echo "The currently installed Prefect version \
+          (2.$PREFECT_SHORT_VERSION) is not compatible. \
+          Updating to the latest Prefect version..."
           pip install prefect -U "prefect>=2.10.8"
         fi
         IFS=',' read -r -a deployment_names <<< ${{ inputs.deployment-names }}
