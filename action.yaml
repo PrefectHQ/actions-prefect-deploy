@@ -46,6 +46,7 @@ runs:
           pip install prefect -U "prefect>=2.10.8"
         fi
         IFS=',' read -r -a deployment_names <<< "${{ inputs.deployment-names }}"
+        echo The deployment names are $deployment_names
         for name in ${deployment_names}; do
           prefect deploy --name $name
         done
