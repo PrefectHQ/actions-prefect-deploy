@@ -30,7 +30,7 @@ runs:
     - id: install-local-requirements
       if: ${{ inputs.requirements-file-paths != '' }}
       run: |
-        IFS=',' read -r -a requirements_paths <<< ${{ inputs.requirements-file-paths }}
+        IFS=',' read -r -a requirements_paths <<< "${{ inputs.requirements-file-paths }}"
         for req in ${requirements_paths}; do
           pip install -r $req
         done
