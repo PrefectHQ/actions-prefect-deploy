@@ -47,7 +47,6 @@ runs:
         fi
         IFS=',' read -ra deployment_names <<< "${{ inputs.deployment-names }}" 
         for name in "${deployment_names[@]}"; do
-          echo "$name"
           prefect deploy --name "$name"
         done
       shell: bash
