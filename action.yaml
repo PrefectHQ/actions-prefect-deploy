@@ -32,7 +32,6 @@ runs:
       run: |
         IFS=',' read -ra requirements_paths <<< "${{ inputs.requirements-file-paths }}"
         for req in ${requirements_paths[@]}; do
-          echo $req
           pip install -r $req
         done
       shell: bash
