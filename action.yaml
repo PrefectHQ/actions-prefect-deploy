@@ -45,10 +45,10 @@ runs:
           echo "The currently installed Prefect version (2.$PREFECT_SHORT_VERSION) is not compatible. Updating to the latest Prefect version..."
           pip install prefect -U "prefect>=2.10.8"
         fi
-        IFS=',' read -r -s -A deployment_names <<< "${{ inputs.deployment-names }}"
-        echo The deployment names are "$deployment_names"
-        for name in ${deployment_names[@]}; do
-          echo $name
-          prefect deploy --name $name
+        IFS=','
+        read -ra deployment_names <<< "${{ inputs.deployment-names }}" 
+        for i in "${deployment_names[@]}"; do
+          echo "$i"
+          prefect deploy --name "$i"
         done
       shell: bash
