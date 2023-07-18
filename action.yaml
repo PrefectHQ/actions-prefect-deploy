@@ -40,13 +40,13 @@ runs:
       run: |
         PREFECT_VERSION=$(prefect --version)
         PREFECT_SHORT_VERSION="$(cut -d "." -f 2 <<< "$PREFECT_VERSION")"."$(cut -d "." -f 3 <<< "$PREFECT_VERSION")"
-        if [ $(echo $PREFECT_SHORT_VERSION'<'10.6 | bc -l) -eq 1 ];
+        if [ $(echo $PREFECT_SHORT_VERSION'<'10.14 | bc -l) -eq 1 ];
         then
-          echo "The currently installed Prefect version (2.$PREFECT_SHORT_VERSION) is not compatible. Updating to the latest Prefect version..."
-          pip install prefect -U "prefect>=2.10.11"
+          echo "The currently installed Prefect version (2.$PREFECT_SHORT_VERSION) will be updated to the latest to ensure compatibility with this action."
+          pip install prefect -U "prefect>=2.10.14"
         fi
         IFS=',' read -ra deployment_names <<< "${{ inputs.deployment-names }}"
         for name in "${deployment_names[@]}"; do
-          prefect deploy --name "$name"
+          prefect --no-prompt deploy --name "$name"
         done
       shell: bash
