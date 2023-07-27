@@ -31,4 +31,8 @@ deployments:
     flow_name: null
     parameters: {}
     schedule: null
-    work_pool: default
+    work_pool:
+      job_variables:
+        image: prefecthq/prefect:2-latest
+      name: docker-pool
+      work_queue_name: null
