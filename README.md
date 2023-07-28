@@ -2,7 +2,7 @@
 
 ## Details
 
-A Github Action to deploy one or more Prefect deployments via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration must be defined in your `deployment.yaml`, which will be infered at run time; this means you **cannot** pass any additional CLI arguments. For example, your `deployment.yaml` should have the following configuration in place: 
+A Github Action to deploy one or more Prefect deployments via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration must be defined in your `prefect.yaml`, which will be infered at run time; this means you **cannot** pass any additional CLI arguments. For example, your `prefect.yaml` should have the following configuration in place: 
 ```yaml
 deployments:
   - name: Simple
@@ -31,7 +31,7 @@ Additionally, the `prefect deploy` command needs to load your flow in order to g
 
 | Input | Desription | Required |
 |-------|------------|----------|
-| deployment-names | Comma separated list of deployment names defined in the deployment.yaml file. | true |
+| deployment-names | Comma separated list of deployment names defined in the prefect.yaml file. | true |
 | requirements-file-paths | Comma sepearated list of paths to requirements files to correctly install dependencies for your Prefect flow(s). | false |
 
 ## Examples
