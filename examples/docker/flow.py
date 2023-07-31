@@ -9,3 +9,5 @@ def call_api(url: str = "http://time.jsontest.com/"):
     resp = requests.get(url).json()
     print(resp)
     return resp
+if __name__ == "__main__":
+    call_api()

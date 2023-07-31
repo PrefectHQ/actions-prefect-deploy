@@ -2,7 +2,7 @@
 
 # Generic metadata about this project
 name: docker
-prefect-version: 2.10.11
+prefect-version: 2.11.0
 
 # build section allows you to manage and build docker images
 build:
@@ -23,3 +23,16 @@ pull:
       repository: git@github.com:PrefectHQ/actions-prefect-deploy.git
       branch: main
       access_token: "{{ prefect.blocks.secret.docker-github-pat }}"
+
+deployments:
+  - name: Docker
+    description: null
+    entrypoint: ./flow.py:call_api
+    flow_name: null
+    parameters: {}
+    schedule: null
+    work_pool:
+      job_variables:
+        image: prefecthq/prefect:2-latest
+      name: docker-pool
+      work_queue_name: null
