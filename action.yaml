@@ -23,6 +23,12 @@ inputs:
       example './flow1/requirements.txt,./flow2/requirements.txt'
     required: false
     default: ''
+  all-deployments:
+    description:
+      If set to true, all deployments will be
+      deployed. This will override the
+      deployment-names input.
+    default: "false"
 
 runs:
   using: composite
@@ -45,8 +51,13 @@ runs:
           echo "The currently installed Prefect version (2.$PREFECT_SHORT_VERSION) will be updated to the latest to ensure compatibility with this action."
           pip install prefect -U "prefect>=2.10.14"
         fi
-        IFS=',' read -ra deployment_names <<< "${{ inputs.deployment-names }}"
-        for name in "${deployment_names[@]}"; do
-          prefect --no-prompt deploy --name "$name"
-        done
+        if [ ${{ inputs.all-deployments }} == "true" ];
+        then
+          prefect --no-prompt deploy --all
+        else
+          IFS=',' read -ra deployment_names <<< "${{ inputs.deployment-names }}"
+          for name in "${deployment_names[@]}"; do
+            prefect --no-prompt deploy --name "$name"
+          done
+        fi
       shell: bash
