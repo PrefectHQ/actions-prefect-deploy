@@ -71,7 +71,7 @@ jobs:
 
 ### Multi-Deployment Prefect Deploy
 
-Deploy multiple Prefect deployments that doesn't have a `push` step defined in the `prefect.yaml`
+Deploy multiple Prefect deployments that do not have a `push` step defined in the `prefect.yaml`
 ```yaml
 name: Deploy multiple Prefect deployments
 on:
@@ -88,6 +88,28 @@ jobs:
         uses: PrefectHQ/actions-prefect-deploy@v3
         with:
           deployment-names: Simple_Deployment_1,Simple_Deployment_2
+          requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
+```
+
+### Multi-Deployment Prefect Deploy of all Deployments defined in `prefect.yaml`
+
+Deploy all Prefect deployments that do not have a `push` step defined in the `prefect.yaml`
+```yaml
+name: Deploy all Prefect deployments
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy_flow:
+    runs-on: ubuntu-latest
+    steps:
+      - ...
+
+      - name: Run Prefect Deploy
+        uses: PrefectHQ/actions-prefect-deploy@v3
+        with:
+          all-deployments: "true"
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
 ```
 
