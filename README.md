@@ -91,7 +91,7 @@ jobs:
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
 ```
 
-### Multi-Deployment Prefect Deploy of all Deployments in `prefect.yaml`
+### Multi-Deployment Prefect Deploy of all Deployments defined in `prefect.yaml`
 
 Deploy all Prefect deployments that do not have a `push` step defined in the `prefect.yaml`
 ```yaml
