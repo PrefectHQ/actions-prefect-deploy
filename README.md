@@ -50,7 +50,7 @@ jobs:
   deploy_flow:
     runs-on: ubuntu-latest
     steps:
-      - uses: checkout@v3
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v4
         with:
@@ -126,7 +126,7 @@ jobs:
   deploy_flow:
     runs-on: ubuntu-latest
     steps:
-      - uses: checkout@v3
+      - uses: actions/checkout@v3
 
       - uses: actions/setup-python@v4
         with:
