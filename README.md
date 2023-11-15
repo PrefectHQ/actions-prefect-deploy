@@ -2,7 +2,7 @@
 
 ## Details
 
-A Github Action to deploy one or more Prefect deployments via [Prefect Projects](https://docs.prefect.io/latest/concepts/projects/#projects). Note - all configuration must be defined in your `prefect.yaml`, which will be infered at run time; this means you **cannot** pass any additional CLI arguments. For example, your `prefect.yaml` should have the following configuration in place: 
+A Github Action to deploy one or more Prefect deployments with a [`prefect.yaml` file](https://docs.prefect.io/latest/guides/prefect-deploy/)). Note - all configuration must be defined in your `prefect.yaml` file, which will be inferred at run time. This means you **cannot** pass any additional CLI arguments. For example, your `prefect.yaml` should have the following configuration in place: 
 ```yaml
 deployments:
   - name: Simple
