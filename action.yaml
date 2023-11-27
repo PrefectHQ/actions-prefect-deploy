@@ -1,4 +1,3 @@
----
 name: Deploy a Prefect flow
 author: PrefectHQ
 description: Deploy a flow from a project by creating a Prefect deployment.
@@ -23,6 +22,15 @@ inputs:
       example './flow1/requirements.txt,./flow2/requirements.txt'
     required: false
     default: ''
+
+  pyproject-toml-path:
+    description:
+      Path to your pyproject.toml file for
+      dependency management of your Prefect flow(s).
+      example './pyproject.toml'
+    required: false
+    default: ''
+
   all-deployments:
     description:
       If set to true, all deployments will be
@@ -40,6 +48,13 @@ runs:
         for req in ${requirements_paths[@]}; do
           pip install -r $req
         done
+      shell: bash
+
+    - id: install-from-pyproject-toml
+      if: ${{ inputs.pyproject-toml-path != '' }}
+      run: |
+        cd $(dirname ${{ inputs.pyproject-toml-path }})
+        pip install .
       shell: bash
 
     - id: prefect-deploy
