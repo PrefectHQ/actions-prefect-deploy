@@ -20,7 +20,7 @@ jobs:
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@pyproject
+        uses: PrefectHQ/actions-prefect-deploy
         with:
           deployment-names: Simple
           pyproject-toml-path: ./path/to/pyproject.toml
