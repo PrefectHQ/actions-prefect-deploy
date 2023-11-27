@@ -53,8 +53,8 @@ runs:
     - id: install-from-pyproject-toml
       if: ${{ inputs.pyproject-toml-path != '' }}
       run: |
-        pip install poetry
-        poetry install --no-dev --no-root -f ${{ inputs.pyproject-toml-path }}
+        cd $(dirname ${{ inputs.pyproject-toml-path }})
+        pip install .
       shell: bash
 
     - id: prefect-deploy
