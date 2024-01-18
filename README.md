@@ -19,8 +19,6 @@ deployments:
 
 Additionally, the `prefect deploy` command needs to load your flow in order to gather some information about it. This results in the module that the flow is in being loaded, which can result in errors if not all the dependencies are present (issue [9512](https://github.com/PrefectHQ/prefect/issues/9512)). As a result, this action takes in a comma-seperated list of requirments to pre-load these ahead of running `prefect deploy`. This will **not** result in a generic image being created, but rather used to satisfy a pre-flight check required by the Prefect CLI. If building one or many custom docker images, those will still be isolated and only install the relevant dependencies defined as a part of your Dockerfile.
 
-**Note**: When setting the `deployment-file-path` only associate deployment-names that are included in that deployment file.  If you attempt to run a prefect deployment that is not included in that file, the action will fail.
-
 ## Requirements
 
 - Access to a [Prefect Cloud Account](https://docs.prefect.io/latest/ui/cloud/#welcome-to-prefect-cloud)
@@ -37,6 +35,8 @@ Additionally, the `prefect deploy` command needs to load your flow in order to g
 | requirements-file-paths | Comma sepearated list of paths to requirements files to correctly install dependencies for your Prefect flow(s). | false |
 | deployment-file-path | Relative path to your Prefect deployment file. Defaults to `./prefect.yaml` | false |
 | all-deployments | If set to "true", all deployments defined in prefect.yaml will be deployed. This will override the deployment-names input. Defaults to "false" | true |
+
+**Note**: When setting the `deployment-file-path` only associate deployment-names that are included in that deployment file.  If you attempt to run a prefect deployment that is not included in that file, the action will fail.
 
 ## Examples
 
