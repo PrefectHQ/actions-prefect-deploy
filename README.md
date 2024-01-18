@@ -32,8 +32,8 @@ Additionally, the `prefect deploy` command needs to load your flow in order to g
 | Input | Desription | Required |
 |-------|------------|----------|
 | deployment-names | Comma separated list of deployment names defined in the prefect.yaml file. | false |
-| requirements-file-paths | Comma sepearated list of paths to requirements files to correctly install dependencies for your Prefect flow(s). | false | Relative path to your Prefect deployment file. Defaults to `./prefect.yaml` | false
-| deployment-file-path | 
+| requirements-file-paths | Comma sepearated list of paths to requirements files to correctly install dependencies for your Prefect flow(s). | false |
+| deployment-file-path | Relative path to your Prefect deployment file. Defaults to `./prefect.yaml` | false |
 | all-deployments | If set to "true", all deployments defined in prefect.yaml will be deployed. This will override the deployment-names input. Defaults to "false" | true |
 
 ## Examples
