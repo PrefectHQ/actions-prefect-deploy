@@ -36,6 +36,8 @@ Additionally, the `prefect deploy` command needs to load your flow in order to g
 | deployment-file-path | Relative path to your Prefect deployment file. Defaults to `./prefect.yaml` | false |
 | all-deployments | If set to "true", all deployments defined in prefect.yaml will be deployed. This will override the deployment-names input. Defaults to "false" | true |
 
+**Note**: When setting the `deployment-file-path` only associate deployment-names that are included in that deployment file.  If you attempt to pass a prefect deployment that is not included in that file, the action will fail.
+
 ## Examples
 
 ### Simple Prefect Deploy
