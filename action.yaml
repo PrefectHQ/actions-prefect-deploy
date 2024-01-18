@@ -23,6 +23,13 @@ inputs:
     required: false
     default: ''
 
+  deployment-file-path:
+    description:
+      Relative path to your Prefect deployment file.
+      example './prefect-deployment-files/prefect.yaml'
+    required: false
+    default: './prefect.yaml'
+
   pyproject-toml-path:
     description:
       Path to your pyproject.toml file for
@@ -72,7 +79,7 @@ runs:
         else
           IFS=',' read -ra deployment_names <<< "${{ inputs.deployment-names }}"
           for name in "${deployment_names[@]}"; do
-            prefect --no-prompt deploy --name "$name"
+            prefect --no-prompt deploy --prefect-file "${{ inputs.deployment-file-path }}" --name "$name"
           done
         fi
       shell: bash
