@@ -23,7 +23,6 @@ deployments:
   - name: Simple_Deployment_1
     description: null
     entrypoint: ./deployment-1/flow1.py:call_api
-    flow_name: null
     parameters: {}
     schedule: null
     tags: []
@@ -36,7 +35,6 @@ deployments:
   - name: Simple_Deployment_2
     description: null
     entrypoint: ./deployment-2/flow2.py:call_api
-    flow_name: null
     parameters: {}
     schedule: null
     tags: []
