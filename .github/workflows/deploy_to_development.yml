@@ -1,5 +1,11 @@
-name: Deploy a Prefect flow to staging/test
-on: [push]
+name: Deploy a Prefect flow to Development
+on:
+  push:
+    branches:
+      - 'feature/*'
+  pull_request:
+    branches:
+      - 'feature/*'
 jobs:
   deploy_flow:
     runs-on: ubuntu-latest
