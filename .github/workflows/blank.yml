@@ -21,4 +21,4 @@ jobs:
         uses: PrefectHQ/actions-prefect-deploy@v3
         with:
           deployment-names: Simple_Deployment_1,Simple_Deployment_2
-          requirements-file-paths : ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
+          requirements-file-paths : ./deployment-1/requirements.txt,./deployment-2/requirements.txt
