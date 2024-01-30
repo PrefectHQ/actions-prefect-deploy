@@ -21,6 +21,6 @@ jobs:
         uses: PrefectHQ/actions-prefect-deploy@v3
         with:
           all-deployments: "true"
-          requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
-          prefect-file: ./examples/multi-deployment/prefect.yaml
+          requirements-file-paths : ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
+          deployment-file-path : ./examples/multi-deployment/prefect.yaml
 
