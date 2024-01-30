@@ -21,7 +21,7 @@ pull:
 
 deployments:
   - name: Simple_Deployment_1
-    description: null
+    description: Simple_Deployment_1
     entrypoint: ./deployment-1/flow1.py:call_api
     parameters: {}
     schedule: null
@@ -33,7 +33,7 @@ deployments:
       name: simple-pool
       work_queue_name: null
   - name: Simple_Deployment_2
-    description: null
+    description: Simple_Deployment_2
     entrypoint: ./deployment-2/flow2.py:call_api
     parameters: {}
     schedule: null
