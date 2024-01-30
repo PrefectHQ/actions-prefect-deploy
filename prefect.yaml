@@ -15,15 +15,15 @@ push: null
 # for cloning this project in remote locations
 pull:
   - prefect.projects.steps.git_clone_project:
-      repository: git@github.com:PrefectHQ/actions-prefect-deploy.git
+      repository: https://github.com/ravicheetiralatl/actions-prefect-deploy.git
       branch: main
-      access_token: "{{ prefect.blocks.secret.simple-github-pat }}"
+      access_token: "{{ prefect.blocks.secret.github-access-token }}"
 
 deployments:
   - name: Simple_Deployment_1
     description: null
     entrypoint: ./deployment-1/flow.py:call_api
-    flow_name: null
+    flow_name: Flow_1
     parameters: {}
     schedule: null
     tags: []
@@ -36,7 +36,7 @@ deployments:
   - name: Simple_Deployment_2
     description: null
     entrypoint: ./deployment-2/flow.py:call_api
-    flow_name: null
+    flow_name: Flow_2
     parameters: {}
     schedule: null
     tags: []
