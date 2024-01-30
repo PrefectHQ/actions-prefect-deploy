@@ -20,5 +20,6 @@ jobs:
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v3
         with:
-          deployment-names: Simple_Deployment_1,Simple_Deployment_2
+          #deployment-names: Simple_Deployment_1,Simple_Deployment_2
+          all-deployments: "true"
           requirements-file-paths : ./deployment-1/requirements.txt,./deployment-2/requirements.txt
