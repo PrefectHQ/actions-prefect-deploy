@@ -22,4 +22,4 @@ jobs:
         with:
           deployment-names: Simple_Deployment_1,Simple_Deployment_2
           requirements-file-paths : ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
-          deployment-file-path : ./multi-deployment/prefect.yaml
+          deployment-file-path:  ./examples/multi-deployment/prefect.yaml
