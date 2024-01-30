@@ -1,26 +1,26 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+name: Deploy a Prefect flow to staging/test
+on: [push]
 jobs:
   deploy_flow:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+# TODO: first run tests then deploy
+      - name: Prefect Auth
+        uses: PrefectHQ/actions-prefect-auth@v1
+        with:
+          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}  # TODO: use OIDC with organisation or enterprise plan.
+          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}  # TODO: use staging and production workspaces with organisation or enterprise plan.
+
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v3
         with:
           all-deployments: "true"
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
           prefect-file: ./examples/multi-deployment/prefect.yaml
+
