@@ -23,4 +23,4 @@ jobs:
           #deployment-names: Simple_Deployment_1,Simple_Deployment_2
           all-deployments: "true"
           requirements-file-paths : ./deployment-1/requirements.txt,./deployment-2/requirements.txt
-          deployment-file-path: ./prefect-prod.yaml
+          deployment-file-path: ./prod/prefect-prod.yaml
