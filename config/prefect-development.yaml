@@ -20,9 +20,9 @@ pull:
       access_token: "{{ prefect.blocks.secret.github-access-token }}"
 
 deployments:
-  - name: Simple_Deployment_1
-    description: Simple_Deployment_1
-    entrypoint: ./deployment-1/flow1.py:call_api
+  - name: Simple_Deployment_3
+    description: Simple_Deployment_3
+    entrypoint: ./deployment-3/flow3.py:call_api
     parameters: {}
     schedule: null
     tags: []
@@ -32,15 +32,4 @@ deployments:
         image: prefecthq/prefect:2-latest
       name: simple-pool
       work_queue_name: null
-  - name: Simple_Deployment_2
-    description: Simple_Deployment_2
-    entrypoint: ./deployment-2/flow2.py:call_api
-    parameters: {}
-    schedule: null
-    tags: []
-    version: null
-    work_pool:
-      job_variables:
-        image: prefecthq/prefect:2-latest
-      name: simple-pool
-      work_queue_name: null
+  

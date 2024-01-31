@@ -22,11 +22,11 @@ jobs:
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}  # TODO: use OIDC with organisation or enterprise plan.
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}  # TODO: use staging and production workspaces with organisation or enterprise plan.
-
+      - name: Copy Prefect Config
+        run: cp ./config/prefect-development.yaml prefect.yaml
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v3
         with:
           #deployment-names: Simple_Deployment_1,Simple_Deployment_2
           all-deployments: "true"
           requirements-file-paths : ./deployment-1/requirements.txt,./deployment-2/requirements.txt
-          deployment-file-path: ./prod/prefect-prod.yaml
