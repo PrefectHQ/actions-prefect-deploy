@@ -1,5 +1,5 @@
 ---
-name: lint yaml files
+name: lint2 yaml files
 
 "on":
   pull_request:
