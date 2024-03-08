@@ -70,7 +70,7 @@ jobs:
         with:
           deployment-names: Simple
           requirements-file-paths: ./examples/simple/requirements.txt
-          prefect-file: ./examples/simple/prefect.yaml
+          deployment-file-path: ./examples/simple/prefect.yaml
 ```
 
 ### Multi-Deployment Prefect Deploy
@@ -93,7 +93,7 @@ jobs:
         with:
           deployment-names: Simple_Deployment_1,Simple_Deployment_2
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
-          prefect-file: ./multi-deployment/prefect.yaml
+          deployment-file-path: ./multi-deployment/prefect.yaml
 ```
 
 ### Multi-Deployment Prefect Deploy of all Deployments defined in `prefect.yaml`
@@ -116,7 +116,7 @@ jobs:
         with:
           all-deployments: "true"
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
-          prefect-file: ./examples/multi-deployment/prefect.yaml
+          deployment-file-path: ./examples/multi-deployment/prefect.yaml
 ```
 
 ### Basic Docker Auth w/ Prefect Deploy
@@ -154,7 +154,7 @@ jobs:
         with:
           deployment-names: Docker
           requirements-file-paths: ./examples/docker/requirements.txt
-          prefect-file: ./examples/docker/prefect.yaml
+          deployment-file-path: ./examples/docker/prefect.yaml
 ```
 ### GCP Workload Identity w/ Prefect Deploy
 
@@ -197,7 +197,7 @@ jobs:
         with:
           deployment-names: Docker
           requirements-file-paths: ./examples/docker/requirements.txt
-          prefect-file: ./examples/docker/prefect.yaml
+          deployment-file-path: ./examples/docker/prefect.yaml
 ```
 
 ## Terms & Conditions
