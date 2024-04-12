@@ -75,7 +75,7 @@ runs:
         fi
         if [ ${{ inputs.all-deployments }} == "true" ];
         then
-          prefect --no-prompt deploy --all
+          prefect --no-prompt deploy --all --prefect-file "${{ inputs.deployment-file-path }}"
         else
           IFS=',' read -ra deployment_names <<< "${{ inputs.deployment-names }}"
           for name in "${deployment_names[@]}"; do
