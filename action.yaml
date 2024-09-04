@@ -70,8 +70,8 @@ runs:
         PREFECT_SHORT_VERSION="$(cut -d "." -f 2 <<< "$PREFECT_VERSION")"."$(cut -d "." -f 3 <<< "$PREFECT_VERSION")"
         if [ $(echo $PREFECT_SHORT_VERSION'<'10.14 | bc -l) -eq 1 ];
         then
-          echo "The currently installed Prefect version (2.$PREFECT_SHORT_VERSION) will be updated to the latest to ensure compatibility with this action."
-          pip install prefect -U "prefect>=3.0.0rc,<4"
+          echo "The currently installed Prefect version (3.$PREFECT_SHORT_VERSION) will be updated to the latest to ensure compatibility with this action."
+          pip install prefect -U "prefect>=3,<4"
         fi
         if [ ${{ inputs.all-deployments }} == "true" ];
         then

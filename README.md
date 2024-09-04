@@ -6,14 +6,13 @@ A Github Action to deploy one or more Prefect deployments with a [`prefect.yaml`
 ```yaml
 deployments:
   - name: Simple
-    description: null
-    entrypoint: examples/simple/flow.py:call_api
-    flow_name: null
+    description: A simple example
+    entrypoint: flow.py:call_api
     parameters: {}
-    schedule: null
-    tags: []
-    version: null
+    schedule: {}
     work_pool:
+      job_variables:
+        image: prefecthq/prefect:3-latest
       name: simple-pool
 ```
 
@@ -60,7 +59,7 @@ jobs:
           python-version: '3.10'
 
       - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v1
+        uses: PrefectHQ/actions-prefect-auth@v2
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
@@ -144,7 +143,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v1
+        uses: PrefectHQ/actions-prefect-auth@v2
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
@@ -187,7 +186,7 @@ jobs:
           python-version: '3.10'
 
       - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v1
+        uses: PrefectHQ/actions-prefect-auth@v2
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
