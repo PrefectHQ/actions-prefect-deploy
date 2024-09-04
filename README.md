@@ -2,18 +2,17 @@
 
 ## Details
 
-A Github Action to deploy one or more Prefect deployments with a [`prefect.yaml` file](https://docs.prefect.io/latest/guides/prefect-deploy/)). Note - all configuration must be defined in your `prefect.yaml` file, which will be inferred at run time. This means you **cannot** pass any additional CLI arguments. For example, your `prefect.yaml` should have the following configuration in place: 
+A Github Action to deploy one or more Prefect deployments with a [`prefect.yaml` file](https://docs.prefect.io/latest/guides/prefect-deploy/)). Note - all configuration must be defined in your `prefect.yaml` file, which will be inferred at run time. This means you **cannot** pass any additional CLI arguments. For example, your `prefect.yaml` should have the following configuration in place:
 ```yaml
 deployments:
   - name: Simple
-    description: null
-    entrypoint: examples/simple/flow.py:call_api
-    flow_name: null
+    description: A simple example
+    entrypoint: flow.py:call_api
     parameters: {}
-    schedule: null
-    tags: []
-    version: null
+    schedule: {}
     work_pool:
+      job_variables:
+        image: prefecthq/prefect:3-latest
       name: simple-pool
 ```
 
@@ -60,13 +59,13 @@ jobs:
           python-version: '3.10'
 
       - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v1
+        uses: PrefectHQ/actions-prefect-auth@v2
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v3
+        uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           deployment-names: Simple
           requirements-file-paths: ./examples/simple/requirements.txt
@@ -89,7 +88,7 @@ jobs:
       - ...
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v3
+        uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           deployment-names: Simple_Deployment_1,Simple_Deployment_2
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
@@ -112,7 +111,7 @@ jobs:
       - ...
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v3
+        uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           all-deployments: "true"
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
@@ -144,13 +143,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v1
+        uses: PrefectHQ/actions-prefect-auth@v2
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v3
+        uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           deployment-names: Docker
           requirements-file-paths: ./examples/docker/requirements.txt
@@ -187,13 +186,13 @@ jobs:
           python-version: '3.10'
 
       - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v1
+        uses: PrefectHQ/actions-prefect-auth@v2
         with:
           prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
           prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
 
       - name: Run Prefect Deploy
-        uses: PrefectHQ/actions-prefect-deploy@v3
+        uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           deployment-names: Docker
           requirements-file-paths: ./examples/docker/requirements.txt
