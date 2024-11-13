@@ -13,14 +13,11 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v2
-        with:
-          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
-          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
-
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           deployment-names: Simple
           pyproject-toml-path: ./path/to/pyproject.toml
+        env:
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+          PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
