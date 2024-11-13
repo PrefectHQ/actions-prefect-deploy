@@ -21,9 +21,9 @@ Additionally, the `prefect deploy` command needs to load your flow in order to g
 ## Requirements
 
 - Access to a [Prefect Cloud Account](https://docs.prefect.io/latest/ui/cloud/#welcome-to-prefect-cloud)
+- Prefect API Key & Prefect API URL - see [GHA Secrets](https://docs.prefect.io/3.0/deploy/infrastructure-concepts/deploy-ci-cd#repository-secrets)
 - [Checkout](https://github.com/actions/checkout) - to clone the repo
 - [Setup Python](https://github.com/actions/setup-python) - to install prefect & other requirements
-- [Prefect Auth](https://github.com/PrefectHQ/actions-prefect-auth) - to log into Prefect Cloud
 - (optional) [Docker Login](https://github.com/marketplace/actions/docker-login) / Cloud Docker Registry Login if building and pushing a Docker artifact
 
 ## Inputs
@@ -58,18 +58,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v2
-        with:
-          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
-          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
-
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           deployment-names: Simple
           requirements-file-paths: ./examples/simple/requirements.txt
           deployment-file-path: ./examples/simple/prefect.yaml
+        env:
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+          PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
 ```
 
 ### Multi-Deployment Prefect Deploy
@@ -93,6 +90,9 @@ jobs:
           deployment-names: Simple_Deployment_1,Simple_Deployment_2
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
           deployment-file-path: ./multi-deployment/prefect.yaml
+        env:
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+          PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
 ```
 
 ### Multi-Deployment Prefect Deploy of all Deployments defined in `prefect.yaml`
@@ -116,6 +116,9 @@ jobs:
           all-deployments: "true"
           requirements-file-paths: ./examples/multi-deployment/deployment-1/requirements.txt,./examples/multi-deployment/deployment-2/requirements.txt
           deployment-file-path: ./examples/multi-deployment/prefect.yaml
+        env:
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+          PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
 ```
 
 ### Basic Docker Auth w/ Prefect Deploy
@@ -142,18 +145,15 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v2
-        with:
-          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
-          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
-
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           deployment-names: Docker
           requirements-file-paths: ./examples/docker/requirements.txt
           deployment-file-path: ./examples/docker/prefect.yaml
+        env:
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+          PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
 ```
 ### GCP Workload Identity w/ Prefect Deploy
 
@@ -185,18 +185,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Prefect Auth
-        uses: PrefectHQ/actions-prefect-auth@v2
-        with:
-          prefect-api-key: ${{ secrets.PREFECT_API_KEY }}
-          prefect-workspace: ${{ secrets.PREFECT_WORKSPACE }}
-
       - name: Run Prefect Deploy
         uses: PrefectHQ/actions-prefect-deploy@v4
         with:
           deployment-names: Docker
           requirements-file-paths: ./examples/docker/requirements.txt
           deployment-file-path: ./examples/docker/prefect.yaml
+        env:
+          PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+          PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
 ```
 
 ## Terms & Conditions
