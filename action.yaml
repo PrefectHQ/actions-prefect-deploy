@@ -49,7 +49,7 @@ runs:
   using: composite
   steps:
     - name: Install uv
-      uses: astral-sh/setup-uv@v3
+      uses: astral-sh/setup-uv@v4
 
     - name: Set up environment
       run: uv venv
