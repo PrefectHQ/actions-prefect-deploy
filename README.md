@@ -196,5 +196,8 @@ jobs:
           PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
 ```
 
+## Releasing the Action
+Manually create a new semver release (i.e `v1.0.0`) against a new tag to trigger the release workflow.  This workflow will update the major version of the action (i.e `v1`) to point to the new semver release.
+
 ## Terms & Conditions
 See here for the Prefect's [Terms and Conditions](https://www.prefect.io/legal/terms/).
