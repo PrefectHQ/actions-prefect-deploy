@@ -28,7 +28,7 @@ jobs:
             export RELEASE_SHA=$(git rev-parse HEAD)
             git tag "${MAJOR_VERSION}"
             git push origin ${MAJOR_VERSION}
-            gh release create --title "${MAJOR_VERSION}" --generate-notes --target "${RELEASE_SHA} --latest"
+            gh release create --title "${MAJOR_VERSION}" --generate-notes --target "${RELEASE_SHA}" --latest
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
