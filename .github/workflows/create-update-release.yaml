@@ -17,9 +17,12 @@ jobs:
           echo "Releasing major version ${MAJOR_VERSION}"
           if git show-ref --tags --verify --quiet "refs/tags/${MAJOR_VERSION}"; then
             echo "Tag ${MAJOR_VERSION} exists, bumping to match with the latest release"
+            git tag ${MAJOR_VERSION} -f
+            git push origin ${MAJOR_VERSION} -f
           else
             echo "Tag ${MAJOR_VERSION} does not exist. Creating a new tag and release."
+            export RELEASE_SHA=$(git rev-parse HEAD)
             git tag "${MAJOR_VERSION}"
-            git push origin --tags
-            gh release create --title "${MAJOR_VERSION}" --generate-notes --target "${MAJOR_VERSION} --latest"
+            git push origin ${MAJOR_VERSION}
+            gh release create --title "${MAJOR_VERSION}" --generate-notes --target "${RELEASE_SHA} --latest"
           fi
