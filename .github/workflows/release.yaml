@@ -1,0 +1,23 @@
+---
+name: Update Major Version of Prefect Deploy Action
+on:
+  push:
+    tags:
+      # Match the version format to not catch vx major releases
+      - 'v*.*.*'
+permissions: {}
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Release Major Version
+        run: |
+          export MAJOR_VERSION=$(echo ${{ github.ref_name }} | cut -d '.' -f 1)
+          echo "Releasing major version ${MAJOR_VERSION}"
+          if git show-ref --tags --verify --quiet "refs/tags/${MAJOR_VERSION}"; then
+            echo "Tag ${MAJOR_VERSION} exists, bumping to match with the latest release"
+          else
+            echo "Tag ${MAJOR_VERSION} does not exist. Creating a new tag and release."
+            gh release create --title "${MAJOR_VERSION}" --generate-notes --target "${MAJOR_VERSION} --latest"
+          fi
