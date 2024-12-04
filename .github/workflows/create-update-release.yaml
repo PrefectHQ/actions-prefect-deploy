@@ -7,7 +7,7 @@ on:
       - 'v*.*.*'
 permissions: {}
 jobs:
-  release:
+  update-create-major-version:
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -30,3 +30,5 @@ jobs:
             git push origin ${MAJOR_VERSION}
             gh release create --title "${MAJOR_VERSION}" --generate-notes --target "${RELEASE_SHA} --latest"
           fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
