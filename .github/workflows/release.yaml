@@ -19,5 +19,7 @@ jobs:
             echo "Tag ${MAJOR_VERSION} exists, bumping to match with the latest release"
           else
             echo "Tag ${MAJOR_VERSION} does not exist. Creating a new tag and release."
+            git tag "${MAJOR_VERSION}"
+            git push origin --tags
             gh release create --title "${MAJOR_VERSION}" --generate-notes --target "${MAJOR_VERSION} --latest"
           fi
