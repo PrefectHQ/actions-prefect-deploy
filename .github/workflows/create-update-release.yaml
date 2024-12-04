@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Release Major Version
+      - name: Release or UpdateMajor Version
         run: |
           export MAJOR_VERSION=$(echo ${{ github.ref_name }} | cut -d '.' -f 1)
           echo "Releasing major version ${MAJOR_VERSION}"
