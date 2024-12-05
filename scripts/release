@@ -21,6 +21,8 @@ with tempfile.TemporaryDirectory() as temporary:
         version = f"{latest_version.split('.')[0]}.{int(latest_version.split('.')[1]) + 1}.0"
     elif release_type == "patch":
         version = f"{latest_version.split('.')[0]}.{latest_version.split('.')[1]}.{int(latest_version.split('.')[2]) + 1}"
+    else:
+        raise ValueError(f"Invalid release type: {release_type}")
 
 print()
 print(f"Actions Prefect Deploy's next version will be {version}")
