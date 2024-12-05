@@ -26,7 +26,7 @@ jobs:
           else
             echo "Tag ${MAJOR_VERSION} does not exist. Creating a new tag and release."
             export RELEASE_SHA=$(git rev-parse HEAD)
-            gh release create "${MAJOR_VERSION}" --title "${MAJOR_VERSION}" --generate-notes --target "${RELEASE_SHA}" --latest
+            gh release create "${MAJOR_VERSION}" --title "${MAJOR_VERSION}" --generate-notes --target "${RELEASE_SHA}" --latest=false
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

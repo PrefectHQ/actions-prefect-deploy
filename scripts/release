@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+import subprocess
+import tempfile
+
+CLONE_URL = "https://github.com/PrefectHQ/actions-prefect-deploy"
+
+release_type = input("Is this a major, minor, or patch release? ")
+# Clone the repo and get the latest version on the default branch
+# Then determine the new version based on latest tag and release type
+with tempfile.TemporaryDirectory() as temporary:
+    subprocess.check_call(["git", "clone", "--bare", CLONE_URL, temporary])
+    print()
+    result = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=temporary)
+    new_revision = result.decode().strip()
+    # Need to get the latest release as the tag for the major version tends to be the latest tagged version.
+    latest_version = subprocess.check_output(["gh", "release", "list", "--json", "name,isLatest", "--jq", ".[] | select(.isLatest) | .name"]).decode("utf-8")
+    print(f"The current version of Actions Prefect Deploy is {latest_version}")
+    if release_type == "major":
+        version = f"v{int(latest_version.split('.')[0].split('v')[1]) + 1}.0.0"
+    elif release_type == "minor":
+        version = f"{latest_version.split('.')[0]}.{int(latest_version.split('.')[1]) + 1}.0"
+    else:
+        version = f"{latest_version.split('.')[0]}.{latest_version.split('.')[1]}.{int(latest_version.split('.')[2]) + 1}"
+
+print()
+print(f"Actions Prefect Deploy's next version will be {version}")
+print()
+
+print()
+print("The new release is ready at:")
+print()
+subprocess.check_call(
+    [
+        "gh",
+        "release",
+        "create",
+        "--title",
+        version,
+        "--generate-notes",
+        "--target",
+        new_revision,
+        version,
+        "--latest"
+    ],
+)
+print()
