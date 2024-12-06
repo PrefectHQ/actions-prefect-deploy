@@ -48,19 +48,12 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Install uv
-      uses: astral-sh/setup-uv@v4
-
-    - name: Set up environment
-      run: uv venv
-      shell: bash
-
     - id: install-local-requirements
       if: ${{ inputs.requirements-file-paths != '' }}
       run: |
         IFS=',' read -ra requirements_paths <<< "${{ inputs.requirements-file-paths }}"
         for req in ${requirements_paths[@]}; do
-          uv pip install -r $req
+          pip install -r $req
         done
       shell: bash
 
@@ -68,19 +61,19 @@ runs:
       if: ${{ inputs.pyproject-toml-path != '' }}
       run: |
         cd $(dirname ${{ inputs.pyproject-toml-path }})
-        uv pip install .
+        pip install .
       shell: bash
 
     - id: prefect-deploy
       run: |
-        uv pip install prefect -U "prefect>=3,<4"
+        pip install prefect -U "prefect>=3,<4"
         if [ ${{ inputs.all-deployments }} == "true" ];
         then
-          uv run prefect --no-prompt deploy --all --prefect-file "${{ inputs.deployment-file-path }}"
+          prefect --no-prompt deploy --all --prefect-file "${{ inputs.deployment-file-path }}"
         else
           IFS=',' read -ra deployment_names <<< "${{ inputs.deployment-names }}"
           for name in "${deployment_names[@]}"; do
-            uv run prefect --no-prompt deploy --prefect-file "${{ inputs.deployment-file-path }}" --name "$name"
+            prefect --no-prompt deploy --prefect-file "${{ inputs.deployment-file-path }}" --name "$name"
           done
         fi
       shell: bash
