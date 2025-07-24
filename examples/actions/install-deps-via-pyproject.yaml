@@ -21,3 +21,6 @@ jobs:
         env:
           PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
           PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+          # Optionally include credentials for a private pypi index called "my-index" defined in pyproject.toml
+          UV_INDEX_MY_INDEX_USERNAME: ${{ secrets.MY_INDEX_USERNAME }}
+          UV_INDEX_MY_INDEX_PASSWORD: ${{ secrets.MY_INDEX_PASSWORD }}
