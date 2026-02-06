@@ -52,7 +52,7 @@ runs:
       uses: astral-sh/setup-uv@v7
 
     - name: Set up environment
-      run: uv venv
+      run: uv venv --clear
       shell: bash
 
     - id: install-local-requirements
