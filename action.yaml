@@ -49,38 +49,60 @@ runs:
   using: composite
   steps:
     - name: Install uv
-      uses: astral-sh/setup-uv@v10.3.3
+      uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
 
     - name: Set up environment
       run: uv venv --clear
       shell: bash
 
+    # Inputs reach the scripts below through env, never through ${{ }}
+    # interpolation, so a value like a PR title is data and not shell code.
     - id: install-local-requirements
       if: ${{ inputs.requirements-file-paths != '' }}
+      env:
+        REQUIREMENTS_FILE_PATHS: ${{ inputs.requirements-file-paths }}
       run: |
-        IFS=',' read -ra requirements_paths <<< "${{ inputs.requirements-file-paths }}"
-        for req in ${requirements_paths[@]}; do
-          uv pip install -r $req
+        IFS=',' read -ra requirements_paths <<< "$REQUIREMENTS_FILE_PATHS"
+        for req in "${requirements_paths[@]}"; do
+          # Trim surrounding whitespace so 'a.txt, b.txt' installs both files.
+          req="${req#"${req%%[![:space:]]*}"}"
+          req="${req%"${req##*[![:space:]]}"}"
+          if [ -z "$req" ]; then
+            continue
+          fi
+          uv pip install -r "$req"
         done
       shell: bash
 
     - id: install-from-pyproject-toml
       if: ${{ inputs.pyproject-toml-path != '' }}
+      env:
+        PYPROJECT_TOML_PATH: ${{ inputs.pyproject-toml-path }}
       run: |
-        cd $(dirname ${{ inputs.pyproject-toml-path }})
+        cd -- "$(dirname -- "$PYPROJECT_TOML_PATH")" || exit 1
         uv pip install .
       shell: bash
 
     - id: prefect-deploy
+      env:
+        ALL_DEPLOYMENTS: ${{ inputs.all-deployments }}
+        DEPLOYMENT_FILE_PATH: ${{ inputs.deployment-file-path }}
+        DEPLOYMENT_NAMES: ${{ inputs.deployment-names }}
       run: |
         uv pip install prefect -U "prefect>=3,<4"
-        if [ ${{ inputs.all-deployments }} == "true" ];
+        if [ "$ALL_DEPLOYMENTS" == "true" ];
         then
-          uv run prefect --no-prompt deploy --all --prefect-file "${{ inputs.deployment-file-path }}"
+          uv run prefect --no-prompt deploy --all --prefect-file "$DEPLOYMENT_FILE_PATH"
         else
-          IFS=',' read -ra deployment_names <<< "${{ inputs.deployment-names }}"
-          for name in "${deployment_names[@]}"; do
-            uv run prefect --no-prompt deploy --prefect-file "${{ inputs.deployment-file-path }}" --name "$name"
+          IFS=',' read -ra names <<< "$DEPLOYMENT_NAMES"
+          for name in "${names[@]}"; do
+            # Trim surrounding whitespace so 'a, b' deploys both names.
+            name="${name#"${name%%[![:space:]]*}"}"
+            name="${name%"${name##*[![:space:]]}"}"
+            if [ -z "$name" ]; then
+              continue
+            fi
+            uv run prefect --no-prompt deploy --prefect-file "$DEPLOYMENT_FILE_PATH" --name "$name"
           done
         fi
       shell: bash

@@ -17,16 +17,17 @@ jobs:
           fetch-depth: 0
       - name: Release or Update Major Version
         run: |
-          export MAJOR_VERSION=$(echo ${{ github.ref_name }} | cut -d '.' -f 1)
+          MAJOR_VERSION=$(echo "$REF_NAME" | cut -d '.' -f 1)
           echo "Releasing major version ${MAJOR_VERSION}"
           if git show-ref --tags --verify --quiet "refs/tags/${MAJOR_VERSION}"; then
             echo "Tag ${MAJOR_VERSION} exists, bumping to match with the latest release"
-            git tag ${MAJOR_VERSION} -f
-            git push origin ${MAJOR_VERSION} -f
+            git tag "${MAJOR_VERSION}" -f
+            git push origin "${MAJOR_VERSION}" -f
           else
             echo "Tag ${MAJOR_VERSION} does not exist. Creating a new tag and release."
-            export RELEASE_SHA=$(git rev-parse HEAD)
+            RELEASE_SHA=$(git rev-parse HEAD)
             gh release create "${MAJOR_VERSION}" --title "${MAJOR_VERSION}" --generate-notes --target "${RELEASE_SHA}" --latest=false
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REF_NAME: ${{ github.ref_name }}

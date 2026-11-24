@@ -21,12 +21,14 @@ jobs:
       contents: read
     steps:
       - name: Format date
+        env:
+          RUN_STARTED_AT: ${{ github.event.workflow_run.run_started_at }}
         run: |
-          formatted_date=$(date -d "${{ github.event.workflow_run.run_started_at }}" "+%b %d at %I:%M %p")
-          echo "FORMATTED_DATE=$formatted_date" >> $GITHUB_ENV
+          formatted_date=$(date -d "$RUN_STARTED_AT" "+%b %d at %I:%M %p")
+          echo "FORMATTED_DATE=$formatted_date" >> "$GITHUB_ENV"
 
       - name: Send Slack notification
-        uses: 8398a7/action-slack@v3
+        uses: 8398a7/action-slack@77eaa4f1c608a7d68b38af4e3f739dcd8cba273e  # v3.19.0
         with:
           status: custom
           # https://api.slack.com/reference/messaging/attachments

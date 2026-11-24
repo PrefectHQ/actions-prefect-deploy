@@ -12,7 +12,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v7
       - name: yaml-lint
-        uses: ibiqlik/action-yamllint@v3
+        uses: ibiqlik/action-yamllint@2576378a8e339169678f9939646ee3ee325e845c  # v3.1.1
         with:
           config_data: |
             extends: default
